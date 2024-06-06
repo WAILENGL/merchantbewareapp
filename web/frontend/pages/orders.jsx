@@ -27,7 +27,19 @@ export default function Orders() {
 		useIndexResourceState(orders);
 
 	const rowMarkup = orders?.map(
-		({ id, order_number, total_price, customer, addresses, tags }, index) => (
+		(
+			{
+				id,
+				order_number,
+				contact_email,
+				total_price,
+				customer,
+				addresses,
+				financial_status,
+				tags,
+			},
+			index
+		) => (
 			<IndexTable.Row
 				id={id}
 				key={id}
@@ -40,14 +52,11 @@ export default function Orders() {
 					</Text>
 				</IndexTable.Cell>
 				<IndexTable.Cell>
-					{' '}
-					{addresses && addresses[0] ? addresses[0].address1 : ''},{' '}
-					{addresses && addresses[0] ? addresses[0].address2 : ''}
-					{addresses && addresses[0] ? addresses[0].country : ''}
+					{customer.first_name} {customer.last_name}{' '}
 				</IndexTable.Cell>
-				<IndexTable.Cell>{email}</IndexTable.Cell>
-				<IndexTable.Cell> </IndexTable.Cell>
-				<IndexTable.Cell>{last_name}</IndexTable.Cell>
+				<IndexTable.Cell>{contact_email}</IndexTable.Cell>
+				<IndexTable.Cell>{total_price}</IndexTable.Cell>
+				<IndexTable.Cell>{financial_status}</IndexTable.Cell>
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
 			</IndexTable.Row>
 		)
@@ -93,8 +102,8 @@ export default function Orders() {
 					onSelectionChange={handleSelectionChange}
 					headings={[
 						{ title: 'Order' },
-						{ title: 'address' },
-						{ title: 'email' },
+						{ title: 'Customer Name' },
+						{ title: 'Customer email' },
 						{ title: 'Total', alignment: 'end' },
 						{ title: 'Payment status' },
 						{ title: 'Tags' },

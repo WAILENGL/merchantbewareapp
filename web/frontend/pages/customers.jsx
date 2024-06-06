@@ -56,7 +56,7 @@ export default function Customers() {
 		useIndexResourceState(orders);
 
 	const rowMarkup = customers?.map(
-		({ id, first_name, email, last_name, addresses, tags }, index) => (
+		({ id, first_name, last_name, email, addresses, last_order_name, total_spent, tags }, index) => (
 			<IndexTable.Row
 				id={id}
 				key={id}
@@ -75,8 +75,8 @@ export default function Customers() {
 					{addresses && addresses[0] ? addresses[0].country : ''}
 				</IndexTable.Cell>
 				<IndexTable.Cell>{email}</IndexTable.Cell>
-				<IndexTable.Cell> </IndexTable.Cell>
-				<IndexTable.Cell>{last_name}</IndexTable.Cell>
+				<IndexTable.Cell>{last_order_name} </IndexTable.Cell>
+				<IndexTable.Cell>{total_spent}</IndexTable.Cell>
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
 			</IndexTable.Row>
 		)
@@ -100,7 +100,7 @@ export default function Customers() {
 	return (
 		<Page>
 			<TitleBar
-				title={t('Your Bad Customers')}
+				title={t('Your Customers')}
 				primaryAction={{
 					content: t('PageName.primaryAction'),
 					onAction: () => console.log('Primary action'),
@@ -124,8 +124,8 @@ export default function Customers() {
 						{ title: 'Name' },
 						{ title: 'address' },
 						{ title: 'email' },
-						{ title: 'Total', alignment: 'end' },
-						{ title: 'Payment status' },
+						{ title: 'Orders', alignment: 'end' },
+						{ title: 'Total Spent' },
 						{ title: 'Tags' },
 					]}
 				>
