@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
 	Card,
 	Page,
@@ -7,15 +8,16 @@ import {
 	IndexTable,
 	Badge,
 	useIndexResourceState,
+	TextField,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
 import { useAuthenticatedFetch } from '../hooks';
 
 export default function Orders() {
 	const { t } = useTranslation();
 	const [orders, setOrders] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
 	const fetch = useAuthenticatedFetch();
 
 	const resourceName = {
@@ -26,7 +28,37 @@ export default function Orders() {
 	const { selectedResources, allResourcesSelected, handleSelectionChange } =
 		useIndexResourceState(orders);
 
-	const rowMarkup = orders?.map(
+	async function fetchOrders() {
+		try {
+			let request = await fetch('/api/orders');
+			let ordersResponse = await request.json();
+			setOrders(ordersResponse?.data);
+		} catch (err) {
+			console.log({ err });
+		}
+	}
+
+	useEffect(() => {
+		fetchOrders();
+	}, []);
+
+	const filteredOrders = orders.filter((order) => {
+		const searchString = searchQuery.toLowerCase();
+		return (
+			order.order_number.toString().toLowerCase().includes(searchString) ||
+			(order.customer &&
+				`${order.customer.first_name} ${order.customer.last_name}`
+					.toLowerCase()
+					.includes(searchString)) ||
+			(order.contact_email &&
+				order.contact_email.toLowerCase().includes(searchString)) ||
+			order.total_price.toLowerCase().includes(searchString) ||
+			order.financial_status.toLowerCase().includes(searchString) ||
+			order.tags.toLowerCase().includes(searchString)
+		);
+	});
+
+	const rowMarkup = filteredOrders.map(
 		(
 			{
 				id,
@@ -52,7 +84,7 @@ export default function Orders() {
 					</Text>
 				</IndexTable.Cell>
 				<IndexTable.Cell>
-					{customer.first_name} {customer.last_name}{' '}
+					{customer && `${customer.first_name} ${customer.last_name}`}
 				</IndexTable.Cell>
 				<IndexTable.Cell>{contact_email}</IndexTable.Cell>
 				<IndexTable.Cell>{total_price}</IndexTable.Cell>
@@ -62,23 +94,8 @@ export default function Orders() {
 		)
 	);
 
-	async function fetchOrders() {
-		try {
-			let request = await fetch('/api/orders');
-			let ordersResponse = await request.json();
-			setOrders(ordersResponse?.data);
-			console.log(ordersResponse?.data);
-		} catch (err) {
-			console.log({ err });
-		}
-	}
-
-	useEffect(() => {
-		fetchOrders();
-	}, []);
-
 	return (
-		<Page>
+		<Page fullWidth>
 			<TitleBar
 				title={t('Search Orders')}
 				primaryAction={{
@@ -93,9 +110,18 @@ export default function Orders() {
 				]}
 			/>
 			<div>
+				<Card sectioned>
+					<TextField
+						value={searchQuery}
+						onChange={setSearchQuery}
+						label="Search Orders"
+						placeholder="Search by order number, customer name, email, total, status, or tags"
+					/>
+				</Card>
+                <Card>
 				<IndexTable
 					resourceName={resourceName}
-					itemCount={orders.length}
+					itemCount={filteredOrders.length}
 					selectedItemsCount={
 						allResourcesSelected ? 'All' : selectedResources.length
 					}
@@ -104,14 +130,14 @@ export default function Orders() {
 						{ title: 'Order' },
 						{ title: 'Customer Name' },
 						{ title: 'Customer email' },
-						{ title: 'Total', alignment: 'end' },
+						{ title: 'Order Total' },
 						{ title: 'Payment status' },
 						{ title: 'Tags' },
 					]}
-					hasBulkActions={false}
 				>
 					{rowMarkup}
 				</IndexTable>
+                </Card>
 			</div>
 		</Page>
 	);

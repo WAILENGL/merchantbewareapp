@@ -31,7 +31,7 @@ export default function App() {
 									destination: '/edit',
 								},							
 								{
-									label: t('Your Bad Customers'),
+									label: t('Your Customers'),
 									destination: '/customers',
 								},
                 {

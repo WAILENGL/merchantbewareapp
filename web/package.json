@@ -17,6 +17,8 @@
     "@shopify/shopify-app-session-storage-sqlite": "^1.2.3",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
+    "mongoose": "^8.4.1",
+    "moongoose": "^0.0.5",
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
