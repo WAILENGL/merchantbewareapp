@@ -13,50 +13,21 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useAuthenticatedFetch } from '../hooks';
 
-export default function Customers() {
+export default function Orders() {
 	const { t } = useTranslation();
-	const [customers, setCustomers] = useState([]);
+	const [orders, setOrders] = useState([]);
 	const fetch = useAuthenticatedFetch();
-	const orders = [
-		{
-			id: '1020',
-			order: '#1020',
-			date: 'Jul 20 at 4:34pm',
-			customer: 'Jaydon Stanton',
-			total: '$969.44',
-			paymentStatus: <Badge progress="complete">Paid</Badge>,
-			fulfillmentStatus: <Badge progress="incomplete">Unfulfilled</Badge>,
-		},
-		{
-			id: '1019',
-			order: '#1019',
-			date: 'Jul 20 at 3:46pm',
-			customer: 'Ruben Westerfelt',
-			total: '$701.19',
-			paymentStatus: <Badge progress="partiallyComplete">Partially paid</Badge>,
-			fulfillmentStatus: <Badge progress="incomplete">Unfulfilled</Badge>,
-		},
-		{
-			id: '1018',
-			order: '#1018',
-			date: 'Jul 20 at 3.44pm',
-			customer: 'Leo Carder',
-			total: '$798.24',
-			paymentStatus: <Badge progress="complete">Paid</Badge>,
-			fulfillmentStatus: <Badge progress="incomplete">Unfulfilled</Badge>,
-		},
-	];
 
 	const resourceName = {
-		singular: 'customers',
-		plural: 'customers',
+		singular: 'order',
+		plural: 'orders',
 	};
 
 	const { selectedResources, allResourcesSelected, handleSelectionChange } =
 		useIndexResourceState(orders);
 
-	const rowMarkup = customers?.map(
-		({ id, first_name, email, last_name, addresses, tags }, index) => (
+	const rowMarkup = orders?.map(
+		({ id, order_number, total_price, customer, addresses, tags }, index) => (
 			<IndexTable.Row
 				id={id}
 				key={id}
@@ -65,7 +36,7 @@ export default function Customers() {
 			>
 				<IndexTable.Cell>
 					<Text variant="bodyMd" fontWeight="bold" as="span">
-						{first_name} {last_name}
+						{order_number}
 					</Text>
 				</IndexTable.Cell>
 				<IndexTable.Cell>
@@ -82,25 +53,25 @@ export default function Customers() {
 		)
 	);
 
-	async function fetchCustomers() {
+	async function fetchOrders() {
 		try {
-			let request = await fetch('/api/customers');
-			let customersResponse = await request.json();
-			setCustomers(customersResponse?.data);
-			console.log(customersResponse?.data);
+			let request = await fetch('/api/orders');
+			let ordersResponse = await request.json();
+			setOrders(ordersResponse?.data);
+			console.log(ordersResponse?.data);
 		} catch (err) {
 			console.log({ err });
 		}
 	}
 
 	useEffect(() => {
-		fetchCustomers();
+		fetchOrders();
 	}, []);
 
 	return (
 		<Page>
 			<TitleBar
-				title={t('Your Bad Customers')}
+				title={t('Search Orders')}
 				primaryAction={{
 					content: t('PageName.primaryAction'),
 					onAction: () => console.log('Primary action'),
@@ -121,13 +92,14 @@ export default function Customers() {
 					}
 					onSelectionChange={handleSelectionChange}
 					headings={[
-						{ title: 'Name' },
+						{ title: 'Order' },
 						{ title: 'address' },
 						{ title: 'email' },
 						{ title: 'Total', alignment: 'end' },
 						{ title: 'Payment status' },
 						{ title: 'Tags' },
 					]}
+					hasBulkActions={false}
 				>
 					{rowMarkup}
 				</IndexTable>
