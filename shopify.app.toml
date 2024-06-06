@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "8be7878f3a77c46dbec9f0d73a46938b"
+name = "MerchantBewareApp"
+handle = "merchantbeware"
+application_url = "https://involving-resolutions-subscription-before.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "merchantbeware.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_customers,read_orders,write_customers,write_orders,write_products"
+
+[auth]
+redirect_urls = [
+  "https://involving-resolutions-subscription-before.trycloudflare.com/auth/callback",
+  "https://involving-resolutions-subscription-before.trycloudflare.com/auth/shopify/callback",
+  "https://involving-resolutions-subscription-before.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
