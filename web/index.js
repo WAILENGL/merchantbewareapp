@@ -206,26 +206,27 @@ app.get('/api/customers', async (_req, res) => {
 			});
 
 			try {
-				const existingCustomer = await CustomerModel.findOne({ email: item.email });
+				const existingCustomer = await CustomerModel.findOne({
+					email: item.email,
+				});
 				if (!existingCustomer) {
 					await newCustomer.save();
 					return { message: 'user added', customer: item };
 				} else {
-					return { message: 'user already exist', customer: item };
+					return { message: 'user already exists', customer: item };
 				}
 			} catch (error) {
 				return { message: 'internal error', error: error.message };
 			}
 		});
 
-		 await Promise.all(customerPromises);
+		await Promise.all(customerPromises);
 
 		res.status(200).json(customers);
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
 });
-
 
 app.post('/api/products', async (_req, res) => {
 	let status = 200;
