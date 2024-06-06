@@ -10,6 +10,7 @@ import {
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
+import CustomerItemCard from '../components/CustomerCard';
 
 export default function Customers() {
 	const { t } = useTranslation();
@@ -25,8 +26,7 @@ export default function Customers() {
 		plural: 'customers',
 	};
 
-	const { selectedResources, allResourcesSelected, handleSelectionChange } =
-		useIndexResourceState(orders);
+	const { selectedResources, allResourcesSelected } = useIndexResourceState(orders);
 
 	async function fetchCustomers() {
 		try {
@@ -134,27 +134,14 @@ export default function Customers() {
 						label="Search Customers"
 						placeholder="Search for customer"
 					/>
-				</Card>
-				<Card>
-					<IndexTable
-						resourceName={resourceName}
-						itemCount={filteredCustomers.length}
-						selectedItemsCount={
-							allResourcesSelected ? 'All' : selectedResources.length
-						}
-						onSelectionChange={handleSelectionChange}
-						headings={[
-							{ title: 'Name' },
-							{ title: 'Address' },
-							{ title: 'Email' },
-							{ title: 'Most Recent Order', alignment: '' },
-							{ title: 'Total Spent' },
-							{ title: 'Tags' },
-						]}
-					>
-						{rowMarkup}
-					</IndexTable>
-				</Card>
+                 				</Card>
+           
+             
+                                 <div style={{ marginTop: '20px' }}>
+					{filteredCustomers.map((customer) => (
+						<CustomerItemCard key={customer.id} customer={customer} />
+					))}
+				</div>
 			</div>
 		</Page>
 	);

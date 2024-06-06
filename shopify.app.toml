@@ -3,7 +3,7 @@
 client_id = "8be7878f3a77c46dbec9f0d73a46938b"
 name = "MerchantBewareApp"
 handle = "merchantbeware"
-application_url = "https://social-evaluating-jar-sudan.trycloudflare.com"
+application_url = "https://coaches-qualities-thu-filters.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_orders,write_customers,write_orders,write_products
 
 [auth]
 redirect_urls = [
-  "https://social-evaluating-jar-sudan.trycloudflare.com/auth/callback",
-  "https://social-evaluating-jar-sudan.trycloudflare.com/auth/shopify/callback",
-  "https://social-evaluating-jar-sudan.trycloudflare.com/api/auth/callback"
+  "https://coaches-qualities-thu-filters.trycloudflare.com/auth/callback",
+  "https://coaches-qualities-thu-filters.trycloudflare.com/auth/shopify/callback",
+  "https://coaches-qualities-thu-filters.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

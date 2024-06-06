@@ -60,35 +60,31 @@ export function ProductsCard() {
 		}
 	}
 
-  async function fetchOrders(){
-    try{
-      let request = await fetch('/api/orders');
-       let ordersResponse = await request.json();
-       console.log({ordersResponse})
-    }
-    catch(err){
-      console.log({err})
-    }
-  }
+	async function fetchOrders() {
+		try {
+			let request = await fetch('/api/orders');
+			let ordersResponse = await request.json();
+			console.log({ ordersResponse });
+		} catch (err) {
+			console.log({ err });
+		}
+	}
 
-  async function fetchCustomers(){
-    try{
-      let request = await fetch('/api/customers');
-       let customersResponse = await request.json();
-       console.log({customersResponse})
-    }
-    catch(err){
-      console.log({err})
-    }
-  }
+	async function fetchCustomers() {
+		try {
+			let request = await fetch('/api/customers');
+			let customersResponse = await request.json();
+			console.log({ customersResponse });
+		} catch (err) {
+			console.log({ err });
+		}
+	}
 
 	useEffect(() => {
 		fetchProducts();
-    fetchOrders();
-    fetchCustomers();
+		fetchOrders();
+		fetchCustomers();
 	}, []);
-
-  
 
 	return (
 		<>

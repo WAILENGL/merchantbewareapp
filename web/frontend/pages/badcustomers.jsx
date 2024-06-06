@@ -1,54 +1,49 @@
-import { Card, Page, Layout, TextContainer, Text } from '@shopify/polaris';
+import React, { useState, useEffect } from 'react';
+import { Page, TextField, Card } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
+import { useAuthenticatedFetch } from '../hooks';
+import BadCustomerItemCard from '../components/BadCustomerCard';
 
-export default function PageName() {
+export default function badCustomers() {
 	const { t } = useTranslation();
+	const [customers, setCustomers] = useState([]);
+	const fetch = useAuthenticatedFetch();
+
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const handleSearchChange = () => {
+		// Handle cancel action
+		console.log('Search Changed');
+	};
+
+	async function fetchCustomers() {
+		try {
+			let request = await fetch('/api/customers');
+			let customersResponse = await request.json();
+			setCustomers(customersResponse?.data);
+		} catch (err) {
+			console.log({ err });
+		}
+	}
+
+	useEffect(() => {
+		fetchCustomers();
+	}, []);
+
 	return (
 		<Page>
-			<TitleBar
-				title={t('Search Bad Customer List')}
-				primaryAction={{
-					content: t('PageName.primaryAction'),
-					onAction: () => console.log('Primary action'),
-				}}
-				secondaryActions={[
-					{
-						content: t('PageName.secondaryAction'),
-						onAction: () => console.log('Secondary action'),
-					},
-				]}
-			/>
-			<Layout>
-				<Layout.Section>
-					<Card sectioned>
-						<Text variant="headingMd" as="h2">
-							{t('PageName.heading')}
-						</Text>
-						<TextContainer>
-							<p>{t('PageName.body')}</p>
-						</TextContainer>
-					</Card>
-					<Card sectioned>
-						<Text variant="headingMd" as="h2">
-							{t('PageName.heading')}
-						</Text>
-						<TextContainer>
-							<p>{t('PageName.body')}</p>
-						</TextContainer>
-					</Card>
-				</Layout.Section>
-				<Layout.Section secondary>
-					<Card sectioned>
-						<Text variant="headingMd" as="h2">
-							{t('PageName.heading')}
-						</Text>
-						<TextContainer>
-							<p>{t('PageName.body')}</p>
-						</TextContainer>
-					</Card>
-				</Layout.Section>
-			</Layout>
+			<TitleBar title={t('Search MerchantBeware Database')} />
+			<Card sectioned>
+				<TextField
+					value={searchQuery}
+					onChange={handleSearchChange}
+					placeholder="Search MerchantBeware Database"
+				/>
+			</Card>
+			{customers.map((customer) => (
+				<BadCustomerItemCard key={customer.id} customer={customer} />
+			))}
 		</Page>
 	);
 }

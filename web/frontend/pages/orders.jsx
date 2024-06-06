@@ -9,6 +9,8 @@ import {
 	Badge,
 	useIndexResourceState,
 	TextField,
+	Link,
+	Button,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
@@ -69,6 +71,7 @@ export default function Orders() {
 				addresses,
 				financial_status,
 				tags,
+				notes,
 			},
 			index
 		) => (
@@ -90,6 +93,15 @@ export default function Orders() {
 				<IndexTable.Cell>{total_price}</IndexTable.Cell>
 				<IndexTable.Cell>{financial_status}</IndexTable.Cell>
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
+				<IndexTable.Cell>
+					<Button
+						onClick={() => {
+							window.location.href = '/edit';
+						}}
+					>
+						{notes && notes.length > 0 ? 'Edit Report' : 'Create Report'}
+					</Button>
+				</IndexTable.Cell>
 			</IndexTable.Row>
 		)
 	);
@@ -118,26 +130,27 @@ export default function Orders() {
 						placeholder="Search by order number, customer name, email, total, status, or tags"
 					/>
 				</Card>
-                <Card>
-				<IndexTable
-					resourceName={resourceName}
-					itemCount={filteredOrders.length}
-					selectedItemsCount={
-						allResourcesSelected ? 'All' : selectedResources.length
-					}
-					onSelectionChange={handleSelectionChange}
-					headings={[
-						{ title: 'Order' },
-						{ title: 'Customer Name' },
-						{ title: 'Customer email' },
-						{ title: 'Order Total' },
-						{ title: 'Payment status' },
-						{ title: 'Tags' },
-					]}
-				>
-					{rowMarkup}
-				</IndexTable>
-                </Card>
+				<Card>
+					<IndexTable
+						resourceName={resourceName}
+						itemCount={filteredOrders.length}
+						selectedItemsCount={
+							allResourcesSelected ? 'All' : selectedResources.length
+						}
+						onSelectionChange={handleSelectionChange}
+						headings={[
+							{ title: 'Order' },
+							{ title: 'Customer Name' },
+							{ title: 'Customer email' },
+							{ title: 'Order Total' },
+							{ title: 'Payment status' },
+							{ title: 'Tags' },
+							{ title: '' },
+						]}
+					>
+						{rowMarkup}
+					</IndexTable>
+				</Card>
 			</div>
 		</Page>
 	);
