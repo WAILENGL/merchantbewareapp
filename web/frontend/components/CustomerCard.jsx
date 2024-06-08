@@ -11,6 +11,7 @@ import { useAuthenticatedFetch } from '../hooks';
 
 export default function CustomerItemCard({ customer }) {
 	const {
+		id,
 		first_name,
 		last_name,
 		email,
@@ -68,7 +69,7 @@ export default function CustomerItemCard({ customer }) {
 								</Link>
 							) : (
 								<Link
-									url="/create"
+									url={`/edit?userId=${id}`}
 									onClick={() => console.log('Create report')}
 								>
 									Create Report
