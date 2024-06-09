@@ -8,8 +8,7 @@ import shopify from './shopify.js';
 import productCreator from './product-creator.js';
 import PrivacyWebhookHandlers from './privacy.js';
 import { CustomerModel } from './model/CustomersInfo.js';
-import { ReportModel } from './model/ReportMode.js';
-import dotenv from 'dotenv';
+import { ReportModel } from './model/ReportModel.js';
 
 const PORT = parseInt(
 	process.env.BACKEND_PORT || process.env.PORT || '3000',
@@ -355,7 +354,7 @@ app.get('/api/customers/badcustomerDb', async (_req, res) => {
 			users.map(async (user) => {
 				try {
 					const report = reports.find((r) => r.email === user.email);
-					return report ? { ...user?._doc, report:report?._doc } : user._doc;
+					return report ? { ...user?._doc, report: report?._doc } : user._doc;
 				} catch (error) {
 					console.error(
 						`Error merging user with id ${user.id}: ${error.message}`

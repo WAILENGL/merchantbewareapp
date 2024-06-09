@@ -26,10 +26,7 @@ export default function App() {
 									label: t('Search Database'),
 									destination: '/badcustomers',
 								},
-                {
-									label: t('Edit Bad Customers'),
-									destination: '/edit',
-								},							
+          						
 								{
 									label: t('Your Customers'),
 									destination: '/customers',

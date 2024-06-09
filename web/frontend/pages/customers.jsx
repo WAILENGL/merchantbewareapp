@@ -128,16 +128,7 @@ export default function Customers() {
 		<Page fullWidth>
 			<TitleBar
 				title={t('Your Customers')}
-				primaryAction={{
-					content: t('PageName.primaryAction'),
-					onAction: () => console.log('Primary action'),
-				}}
-				secondaryActions={[
-					{
-						content: t('PageName.secondaryAction'),
-						onAction: () => console.log('Secondary action'),
-					},
-				]}
+
 			/>
 			<div>
 				<Card sectioned>

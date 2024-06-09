@@ -99,26 +99,6 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 		fetchCustomers();
 	}, [userId]);
 
-	// const customerAddressFetch = `${
-	// 	customerInfo?.addresses[0].address1
-	// 		? customerInfo?.addresses[0].address1
-	// 		: ''
-	// }, ${
-	// 	customerInfo?.addresses[0].address2
-	// 		? customerInfo?.addresses[0].address2
-	// 		: ''
-	// },
-	// ${customerInfo?.addresses[0].city ? customerInfo?.addresses[0].city : ''}, ${
-	// 	customerInfo?.addresses[0].province_code
-	// 		? customerInfo?.addresses[0].province_code
-	// 		: ''
-	// },
-	// ${customerInfo?.addresses[0].zip ? customerInfo?.addresses[0].zip : ''}, ${
-	// 	customerInfo?.addresses[0].country_code
-	// 		? customerInfo?.addresses[0].country_code
-	// 		: ''
-	// }`;
-
 	return (
 		<Page>
 			<TitleBar title={t('Bad Customer Report')} />

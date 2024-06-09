@@ -23,7 +23,6 @@ export default function BadCustomerItemCard({ customer }) {
 			</Card.Section>
 			<Card.Section title="Notes" subdued>
 				<TextContainer>
-					{/* Replace 'Notes will be displayed here' with the actual notes */}
 					<p>{report?.reason}</p>
 					<p>{report?.content}</p>
 				</TextContainer>
