@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button, TextContainer, Text, Link } from '@shopify/polaris';
 
 export default function BadCustomerItemCard({ customer }) {
-	const { first_name, last_name, email, addresses } = customer;
+	const { first_name, last_name, email, addresses, report } = customer;
 
 	return (
 		<Card>
@@ -23,27 +23,9 @@ export default function BadCustomerItemCard({ customer }) {
 			</Card.Section>
 			<Card.Section title="Notes" subdued>
 				<TextContainer>
-									{/* Replace 'Notes will be displayed here' with the actual notes */}
-					<p>Notes will be displayed here</p>
-					<br></br>
-
-					<Text>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'flex-end',
-								gap: '8px',
-							}}
-						>
-							<Link url="/edit" onClick={() => console.log('Edit report')}>
-								Edit Report
-							</Link>
-							|
-							<a href="#" onClick={() => console.log('Delete report')}>
-								Delete Report
-							</a>
-						</div>
-					</Text>
+					{/* Replace 'Notes will be displayed here' with the actual notes */}
+					<p>{report?.reason}</p>
+					<p>{report?.content}</p>
 				</TextContainer>
 			</Card.Section>
 		</Card>

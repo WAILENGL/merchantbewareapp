@@ -2,16 +2,6 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const ReportSchema = new Schema(
-	{
-		id: Number,
-		email: String,
-        reason: String,
-		content: String,
-	},
-	{ timeStamp: true }
-);
-
 
 const AddressSchema = new Schema({
   id: Number,
@@ -40,9 +30,7 @@ const CustomerSchema = new Schema(
 		first_name: String,
 		last_name: String,
     addresses: [AddressSchema],
-		tags: { type: String, default: '' },
-		report: [ReportSchema],
-
+		tags: { type: String, default: '' }
 	},
 	{ timeStamp: true }
 );

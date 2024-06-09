@@ -26,13 +26,23 @@ export default function Customers() {
 		plural: 'customers',
 	};
 
-	const { selectedResources, allResourcesSelected } = useIndexResourceState(orders);
+	const { selectedResources, allResourcesSelected } =
+		useIndexResourceState(orders);
 
 	async function fetchCustomers() {
 		try {
 			let request = await fetch('/api/customers');
 			let customersResponse = await request.json();
-			setCustomers(customersResponse?.data);
+			console.log({ customersResponse });
+			setCustomers(customersResponse);
+		} catch (err) {
+			console.log({ err });
+		}
+	}
+	async function fetchBadCustomerTarget() {
+		try {
+			let request = await fetch('/api/customers/badCustomerTarget');
+			let customersResponse = await request.json();
 		} catch (err) {
 			console.log({ err });
 		}
@@ -40,6 +50,7 @@ export default function Customers() {
 
 	useEffect(() => {
 		fetchCustomers();
+		fetchBadCustomerTarget();
 	}, []);
 
 	const filteredCustomers = customers.filter((customer) => {
@@ -95,13 +106,15 @@ export default function Customers() {
 						{first_name} {last_name}
 					</Text>
 				</IndexTable.Cell>
+				//{' '}
 				<IndexTable.Cell>
-					{addresses && addresses[0] ? addresses[0].address1 : ''},{' '}
-					{addresses && addresses[0] ? addresses[0].address2 : ''},{' '}
-					{addresses && addresses[0] ? addresses[0].city : ''},{' '}
-					{addresses && addresses[0] ? addresses[0].province_code : ''},{' '}
-					{addresses && addresses[0] ? addresses[0].zip : ''},{' '}
+					// {addresses && addresses[0] ? addresses[0].address1 : ''}, //{' '}
+					{addresses && addresses[0] ? addresses[0].address2 : ''}, //{' '}
+					{addresses && addresses[0] ? addresses[0].city : ''}, //{' '}
+					{addresses && addresses[0] ? addresses[0].province_code : ''}, //{' '}
+					{addresses && addresses[0] ? addresses[0].zip : ''}, //{' '}
 					{addresses && addresses[0] ? addresses[0].country_code : ''}
+					//{' '}
 				</IndexTable.Cell>
 				<IndexTable.Cell>{email}</IndexTable.Cell>
 				<IndexTable.Cell>{last_order_name}</IndexTable.Cell>
@@ -134,10 +147,9 @@ export default function Customers() {
 						label="Search Customers"
 						placeholder="Search for customer"
 					/>
-                 				</Card>
-           
-             
-                                 <div style={{ marginTop: '20px' }}>
+				</Card>
+
+				<div style={{ marginTop: '20px' }}>
 					{filteredCustomers.map((customer) => (
 						<CustomerItemCard key={customer.id} customer={customer} />
 					))}

@@ -20,6 +20,7 @@ export default function CustomerItemCard({ customer }) {
 		total_spent,
 		tags,
 		notes,
+		report,
 	} = customer;
 
 	return (
@@ -51,10 +52,9 @@ export default function CustomerItemCard({ customer }) {
 			</Card.Section>
 			<Card.Section title="Notes" subdued>
 				<TextContainer>
-				{/* Replace 'Notes will be displayed here' with the actual notes */}
-					<p>Notes will be displayed here</p>
-					<br />
+					<p>{report?.reason}</p>
 
+					<p>{report?.content}</p>
 					<Text>
 						<div
 							style={{
@@ -64,15 +64,22 @@ export default function CustomerItemCard({ customer }) {
 							}}
 						>
 							{notes ? (
-								<Link url="/edit" onClick={() => console.log('Edit report')}>
+								<Link
+									url="/edit?userId=${id}"
+									onClick={() => console.log('Edit report')}
+								>
 									Edit Report
 								</Link>
 							) : (
 								<Link
-									url={`/edit?userId=${id}`}
+									url={
+										customer?.report
+											? `/edit?userId=${id}&isEdit=true`
+											: `/edit?userId=${id}`
+									}
 									onClick={() => console.log('Create report')}
 								>
-									Create Report
+									{customer?.report ? 'Edit Report' : 'Create Report'}
 								</Link>
 							)}
 						</div>

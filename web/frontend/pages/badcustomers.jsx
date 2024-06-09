@@ -19,9 +19,10 @@ export default function badCustomers() {
 
 	async function fetchCustomers() {
 		try {
-			let request = await fetch('/api/customers');
+			let request = await fetch('/api/customers/badcustomerDb');
 			let customersResponse = await request.json();
-			setCustomers(customersResponse?.data);
+			console.log({ customersResponse });
+			setCustomers(customersResponse);
 		} catch (err) {
 			console.log({ err });
 		}
@@ -41,7 +42,7 @@ export default function badCustomers() {
 					placeholder="Search MerchantBeware Database"
 				/>
 			</Card>
-			{customers.map((customer) => (
+			{customers?.map((customer) => (
 				<BadCustomerItemCard key={customer.id} customer={customer} />
 			))}
 		</Page>

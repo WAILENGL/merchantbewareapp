@@ -94,13 +94,11 @@ export default function Orders() {
 				<IndexTable.Cell>{financial_status}</IndexTable.Cell>
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
 				<IndexTable.Cell>
-					<Button
-						onClick={() => {
-							window.location.href = '/edit';
-						}}
-					>
-						{notes && notes.length > 0 ? 'Edit Report' : 'Create Report'}
-					</Button>
+					<Link to="/edit">
+						<Button>
+							{notes && notes.length > 0 ? 'Edit Report' : 'Create Report'}
+						</Button>
+					</Link>
 				</IndexTable.Cell>
 			</IndexTable.Row>
 		)

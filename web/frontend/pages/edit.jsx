@@ -15,31 +15,27 @@ import { useSearchParams } from 'react-router-dom';
 
 export default function ReportForm({ customerEmail, customerAddress }) {
 	const { t } = useTranslation();
-	const [reason, setReason] = useState('Chargeback');
+
 	const [notes, setNotes] = useState('');
 	const [customerInfo, setCustomerInfo] = useState({});
 	let [searchParams, setSearchParams] = useSearchParams();
 	const reasons = ['Chargeback', 'Unreasonable', 'Harassment', 'Others'];
 	const fetch = useAuthenticatedFetch();
+	const [reason, setReason] = useState('Chargeback');
 
 	const userId = searchParams.get('userId');
+	const isEdit = searchParams.get('isEdit');
 
 	const handleSave = async () => {
 		try {
-			const updateData = await fetch(
-				`/api/customer/report/${userId}/${reason}/${notes}`,
-				{
-					method: 'PUT',
-					body: JSON.stringify({
-						email: customerInfo?.email,
-						first_name: customerInfo?.first_name,
-						last_name: customerInfo?.last_name,
-						// addresses: customerInfo?.addresses,
-						reason: reason,
-						content: notes,
-					}),
-				}
-			);
+			const updateData = await fetch(`/api/customer/report/${userId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					reason: reason,
+					content: notes,
+				}),
+			});
 			const result = await updateData.json();
 			console.log(result);
 		} catch (err) {
@@ -47,16 +43,39 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 		}
 	};
 
-	console.log('query params', userId);
+	const handleDelete = async () => {
+		const DeletedData = await fetch(
+			`/api/customers/report/${customerInfo?.report?.id}`,
+			{
+				method: 'DELETE',
+			}
+		);
+		const result = await DeletedData.json();
+		console.log({ result });
+		console.log('Report deleted');
+	};
+
+	const handleUpdate = async () => {
+		const updateData = await fetch(
+			`/api/customers/report/${customerInfo?.report?._id}`,
+			{
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					content: notes,
+					reason: reason,
+				}),
+			}
+		);
+		const result = await updateData.json();
+		console.log({ result });
+	};
+
+	const editValue = isEdit === 'true';
 
 	const handleCancel = () => {
 		// Handle cancel action
 		console.log('Report canceled');
-	};
-
-	const handleDelete = () => {
-		// Handle cancel action
-		console.log('Report deleted');
 	};
 
 	async function fetchCustomers() {
@@ -65,6 +84,12 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 			let customerResponse = await request.json();
 			console.log({ customerResponse });
 			setCustomerInfo(customerResponse);
+			setReason(
+				customerResponse?.report
+					? customerResponse?.report?.reason
+					: 'Chargeback'
+			);
+			setNotes(customerResponse?.report?.content);
 		} catch (err) {
 			console.log({ err });
 		}
@@ -100,22 +125,36 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 			<Card sectioned>
 				<FormLayout>
 					<TextContainer>
-						<b>Customer Email:</b> {customerEmail || customerInfo?.email}
+						<b>Customer Name:</b> {customerInfo?.first_name}{' '}
+						{customerInfo?.last_name}
+					</TextContainer>
+					<TextContainer>
+						<b>Customer Email:</b> {customerInfo?.email}
 					</TextContainer>
 
 					<TextContainer>
-						<b>Customer Address:</b>
-						{customerAddress}
+						<b>Customer Address: </b>
+						{customerInfo?.addresses && customerInfo.addresses.length > 0 ? (
+							<>
+								{customerInfo.addresses[0].address1}{' '}
+								{customerInfo.addresses[0].address2}{' '}
+								{customerInfo.addresses[0].province_code}{' '}
+								{customerInfo.addresses[0].zip}{' '}
+								{customerInfo.addresses[0].country}
+							</>
+						) : (
+							<span>No address available</span>
+						)}
 					</TextContainer>
 
 					<Select
+						value={reason}
 						label="Reason for report"
 						options={reasons.map((reason) => ({
 							label: reason,
 							value: reason,
 						}))}
 						onChange={setReason}
-						value={reason}
 					/>
 					<TextField
 						label="Notes"
@@ -125,11 +164,13 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 						onChange={setNotes}
 					/>
 					<FormLayout.Group>
-						<div style={{ flex: 1 }}>
-							<Button secondary onClick={handleDelete}>
-								Delete Report
-							</Button>
-						</div>
+						{editValue && (
+							<div style={{ flex: 1 }}>
+								<Button secondary onClick={handleDelete}>
+									Delete Report
+								</Button>
+							</div>
+						)}
 
 						<div
 							style={{
@@ -142,9 +183,15 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 								Cancel
 							</Button>
 							<span style={{ margin: '0 8px' }}></span>
-							<Button primary onClick={handleSave}>
-								Save
-							</Button>
+							{!editValue ? (
+								<Button primary onClick={handleSave}>
+									Save
+								</Button>
+							) : (
+								<Button primary onClick={handleUpdate}>
+									Update
+								</Button>
+							)}
 						</div>
 					</FormLayout.Group>
 				</FormLayout>
