@@ -1,243 +1,164 @@
-# Shopify App Template for Node
+# Merchant Beware - an early warning app for Shopify Merchants
 
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using Node and React. It contains the basics for building a Shopify app.
+## Introduction
 
-Rather than cloning this repo, you can use your preferred package manager and the Shopify CLI with [these steps](#installing-the-template).
+Merchant Beware is a Shopify app developed to help independent Shopify stores detect potentially problematic customers and to make informed decisions on whether to do business with them. Information on bad customers is shared to a central database, which will help 
 
-## Benefits
+## User Stories
 
-Shopify apps are built on a variety of Shopify tools to create a great merchant experience. The [create an app](https://shopify.dev/docs/apps/getting-started/create) tutorial in our developer documentation will guide you through creating a Shopify app using this template.
+These are the user stories that guided the development of our project:
 
-The Node app template comes with the following out-of-the-box functionality:
+- As a user, I can choose to be a guest or member (through signing up).
+- As a guest/member, I can view the homepage to learn more about the site.
+- As a guest/member, I want to be able to view a list of products.
+- As a guest/member, I want to be able to view details of a specific product.
+- As a member, I want to be able to add products to the shopping cart.
+- As a member, I want to be able to update the quantity of a product or remove it from my shopping cart.
+- As a member, I want to be able to place an order for the products in my shopping cart.
+- As a member, I want to be able to see when my order has been placed successfully.
+- As a member, I want to be able to view my order history.
 
-- OAuth: Installing the app and granting permissions
-- GraphQL Admin API: Querying or mutating Shopify admin data
-- REST Admin API: Resource classes to interact with the API
-- Shopify-specific tooling:
-  - AppBridge
-  - Polaris
-  - Webhooks
+## Technologies and Tools Used
 
-## Tech Stack
+#### Language
 
-This template combines a number of third party open-source tools:
+- HTML
+- CSS
+- JavaScript
 
-- [Express](https://expressjs.com/) builds the backend.
-- [Vite](https://vitejs.dev/) builds the [React](https://reactjs.org/) frontend.
-- [React Router](https://reactrouter.com/) is used for routing. We wrap this with file-based routing.
-- [React Query](https://react-query.tanstack.com/) queries the Admin API.
-- [`i18next`](https://www.i18next.com/) and related libraries are used to internationalize the frontend.
-  - [`react-i18next`](https://react.i18next.com/) is used for React-specific i18n functionality.
-  - [`i18next-resources-to-backend`](https://github.com/i18next/i18next-resources-to-backend) is used to dynamically load app translations.
-  - [`@formatjs/intl-localematcher`](https://formatjs.io/docs/polyfills/intl-localematcher/) is used to match the user locale with supported app locales.
-  - [`@formatjs/intl-locale`](https://formatjs.io/docs/polyfills/intl-locale) is used as a polyfill for [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) if necessary.
-  - [`@formatjs/intl-pluralrules`](https://formatjs.io/docs/polyfills/intl-pluralrules) is used as a polyfill for [`Intl.PluralRules`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) if necessary.
+#### Framework
 
-The following Shopify tools complement these third-party tools to ease app development:
+- React.js
+- Node.js
+- Express.js
+- Tailwind CSS
 
-- [Shopify API library](https://github.com/Shopify/shopify-node-api) adds OAuth to the Express backend. This lets users install the app and grant scope permissions.
-- [App Bridge React](https://shopify.dev/docs/apps/tools/app-bridge/getting-started/using-react) adds authentication to API requests in the frontend and renders components outside of the App’s iFrame.
-- [Polaris React](https://polaris.shopify.com/) is a powerful design system and component library that helps developers build high quality, consistent experiences for Shopify merchants.
-- [Custom hooks](https://github.com/Shopify/shopify-frontend-template-react/tree/main/hooks) make authenticated requests to the Admin API.
-- [File-based routing](https://github.com/Shopify/shopify-frontend-template-react/blob/main/Routes.jsx) makes creating new pages easier.
-- [`@shopify/i18next-shopify`](https://github.com/Shopify/i18next-shopify) is a plugin for [`i18next`](https://www.i18next.com/) that allows translation files to follow the same JSON schema used by Shopify [app extensions](https://shopify.dev/docs/apps/checkout/best-practices/localizing-ui-extensions#how-it-works) and [themes](https://shopify.dev/docs/themes/architecture/locales/storefront-locale-files#usage).
+#### Database
 
-## Getting started
+- MongoDB
 
-### Requirements
+#### Tools
 
-1. You must [download and install Node.js](https://nodejs.org/en/download/) if you don't already have it.
-1. You must [create a Shopify partner account](https://partners.shopify.com/signup) if you don’t have one.
-1. You must create a store for testing if you don't have one, either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store).
+- Figma (Wireframe)
+- Trello (Public Board)
+- Render (Online Deployment)
+- JWT (Authentication)
+- Git and Github
+- Visual Studio Code
+- Vite
 
-### Installing the template
+## Technical Description
 
-This template can be installed using your preferred package manager:
+- A MERN stack app
+- Three data entities (Models)
+- Data operations including CREATE, READ, UPDATE, and DELETE
+- Authenticate users using JWT
+- Be deployed online
+- Manage team contributions and collaboration using Git/GitHub team workflow
 
-Using yarn:
+## Development Process
 
-```shell
-yarn create @shopify/app --template=node
-```
+1. We discussed the project theme within the team and ultimately decided to create an e-commerce website.
+2. We drew the website wireframe and defined user stories.
+3. We created the data model based on the wireframe, user stories, and data flow.
+4. We reported our project plan, wireframe, and data model to the instructor, and made modifications and adjustments based on the instructor's suggestions.
+5. We set up the project infrastructure, including the frontend with React, the backend with Express, the database with MongoDB, and Node.
+6. We assigned different pages of the website to various team members.
+7. Team members aligned their project progress, troubleshot issues, pushed their branches to GitHub, resolved branch conflicts, and merged branches daily.
+8. We reported the soft launch to the instructor and received feedback.
+9. We made adjustments based on the instructor's feedback, mainly focusing on security and validation.
+10. We gave a final presentation of our project to the instructor and classmates, and answered questions.
 
-Using npm:
+## Getting Started
 
-```shell
-npm init @shopify/app@latest -- --template=node
-```
+[Deployed App](https://p3-2g7d.onrender.com/)
 
-Using pnpm:
+#### Pitch Deck
 
-```shell
-pnpm create @shopify/app@latest --template=node
-```
+[Pitch Deck](https://pitch.com/v/ai-3d-toys-transforming-ecommerce-experience-wvqm6e)
 
-This will clone the template and install the required dependencies.
+#### Wireframe
 
-#### Local Development
+[Figma](https://www.figma.com/board/fIRZaoCQJYpwJFw0BRjjk4/Project-3%3A-3D-Printing-Ecom-Site?node-id=0-1&t=9kn4G5qkOHLvyo00-0)
 
-[The Shopify CLI](https://shopify.dev/docs/apps/tools/cli) connects to an app in your Partners dashboard. It provides environment variables, runs commands in parallel, and updates application URLs for easier development.
+#### Project Planning
 
-You can develop locally using your preferred package manager. Run one of the following commands from the root of your app.
+[Trello](https://trello.com/b/8imCDxxA/project-3)
 
-Using yarn:
+## Screenshots
 
-```shell
-yarn dev
-```
+Landing Page
 
-Using npm:
+![Landing Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Landing%20Page.png)
 
-```shell
-npm run dev
-```
+Login Page
+![Login Page](https://github.com/WAILENGL/3DWonders/blob/main/images/login%20page.png?raw=true)
 
-Using pnpm:
+Signup Page
+![Signup Page](https://github.com/WAILENGL/3DWonders/blob/main/images/signuppage.png?raw=true)
 
-```shell
-pnpm run dev
-```
+Products Listing Page
+![Products Listing Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Products%20Listing%20Page.png)
 
-Open the URL generated in your console. Once you grant permission to the app, you can start development.
+Product Details Page
+![Product Details Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Product%20Page.png)
 
-## Deployment
+Cart Page
+![Cart Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Cart%20Page.png?raw=true)
 
-### Application Storage
+Checkout Page
+![Checkout Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Checkout%20Page.png?raw=true)
 
-This template uses [SQLite](https://www.sqlite.org/index.html) to store session data. The database is a file called `database.sqlite` which is automatically created in the root. This use of SQLite works in production if your app runs as a single instance.
+Order Confirmation Page
+![Order Confirmation Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Order%20Confirmation%20Page.png?raw=true)
 
-The database that works best for you depends on the data your app needs and how it is queried. You can run your database of choice on a server yourself or host it with a SaaS company. Here’s a short list of databases providers that provide a free tier to get started:
+User Profile Page
+![User Profile Page](https://github.com/WAILENGL/3DWonders/blob/main/images/User%20Profile%20Page.png?raw=true)
 
-| Database   | Type             | Hosters                                                                                                                                                                                                                               |
-| ---------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MySQL      | SQL              | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-mysql), [Planet Scale](https://planetscale.com/), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/mysql) |
-| PostgreSQL | SQL              | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-postgresql), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres)                                   |
-| Redis      | Key-value        | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-redis), [Amazon MemoryDB](https://aws.amazon.com/memorydb/)                                                                                                        |
-| MongoDB    | NoSQL / Document | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-mongodb), [MongoDB Atlas](https://www.mongodb.com/atlas/database)                                                                                                  |
+Admin Page
+![Admin Page](https://github.com/WAILENGL/3DWonders/blob/main/images/Admin%20page.png?raw=true)
 
-To use one of these, you need to change your session storage configuration. To help, here’s a list of [SessionStorage adapter packages](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
+Admin Page - Create Product
+![Admin Page - Create Product](https://github.com/WAILENGL/3DWonders/blob/main/images/Admin%20Create%20Product.png?raw=true)
 
-### Build
+Admin Page - View Orders
+![Admin Page - View Orders](https://github.com/WAILENGL/3DWonders/blob/main/images/Admin%20Order%20View.png?raw=true)
 
-The frontend is a single page app. It requires the `SHOPIFY_API_KEY`, which you can find on the page for your app in your partners dashboard. Paste your app’s key in the command for the package manager of your choice:
+Admin Page - Product Delete
+![Admin Page - Product Delete](https://github.com/WAILENGL/3DWonders/blob/main/images/Admin%20Product%20Delete.png?raw=true)
 
-Using yarn:
+## Contributors
 
-```shell
-cd web/frontend/ && SHOPIFY_API_KEY=REPLACE_ME yarn build
-```
+[zeanchook](https://github.com/zeanchook)
+[WAILENGL](https://github.com/WAILENGL)
+[Miaoling Mai](https://github.com/MollyMai99)
 
-Using npm:
+## Next Steps
 
-```shell
-cd web/frontend/ && SHOPIFY_API_KEY=REPLACE_ME npm run build
-```
+- Ranking System: Calculate popularity and rank products according to popularity
+- Admin Pages: Further refine the admin CMS and order management pages
+- Introduce product options
 
-Using pnpm:
+## Experience Summary
 
-```shell
-cd web/frontend/ && SHOPIFY_API_KEY=REPLACE_ME pnpm run build
-```
+#### zeanchook
 
-You do not need to build the backend.
+Wokring as a team in a project is definitely rewarding experience. We came accross many obstacles and problems, but in a team we navigate through all these chanllenges through effectively communicate and collborations. We overcame individual challenges and shared knowledge when we're facing dificulties. This effort not only accelerate our project development but also broadened our underrstanding towards the apporach we're taking. This expreince has equiped me with the importance of planning and communication.
 
-## Hosting
+#### Wai-Leng
 
-When you're ready to set up your app in production, you can follow [our deployment documentation](https://shopify.dev/docs/apps/deployment/web) to host your app on a cloud provider like [Heroku](https://www.heroku.com/) or [Fly.io](https://fly.io/).
+Learning to work in a team as a software developer was both challenging and rewarding. Issues with Git Workflow were expected - this was a good learning experience on learning how to use git to facilitate development, and how conflicts can arise from multiple team members committing.
 
-When you reach the step for [setting up environment variables](https://shopify.dev/docs/apps/deployment/web#set-env-vars), you also need to set the variable `NODE_ENV=production`.
+The other key challenge was learning to communicate as a team, from scoping out the project to communicating when to commit, when to work on additional features and when to focus on the core project.
 
-## Known issues
+However, the benefits of working in a team far outweighed the difficulties faced. Having team members to help troubleshoot areas I was having issues with was beneficial, in addition to expanding my perspectives and takeaways from the course material. Being able to draw on different experiences definitely helped with speeding up and enhancing development.
 
-### Hot module replacement and Firefox
+I also gained a greater appreciation for the details that go into making a website functional and secure. Basic small functions that tend to be taken for granted, like adding items to cart and adjusting quantities for an ecommerce website, can require a lot of thought in implementation. This will likely help with planning in future projects.
 
-When running the app with the CLI in development mode on Firefox, you might see your app constantly reloading when you access it.
-That happened in previous versions of the CLI, because of the way HMR websocket requests work.
+I also learned a lot about how to design APIs and Endpoints to perform CRUD operations and secure a website with multiple users via authentication and proper routing.
 
-We fixed this issue with v3.4.0 of the CLI, so after updating it, you can make the following changes to your app's `web/frontend/vite.config.js` file:
 
-1. Change the definition `hmrConfig` object to be:
 
-   ```js
-   const host = process.env.HOST
-     ? process.env.HOST.replace(/https?:\/\//, "")
-     : "localhost";
+## Acknowledgments
 
-   let hmrConfig;
-   if (host === "localhost") {
-     hmrConfig = {
-       protocol: "ws",
-       host: "localhost",
-       port: 64999,
-       clientPort: 64999,
-     };
-   } else {
-     hmrConfig = {
-       protocol: "wss",
-       host: host,
-       port: process.env.FRONTEND_PORT,
-       clientPort: 443,
-     };
-   }
-   ```
-
-1. Change the `server.host` setting in the configs to `"localhost"`:
-
-   ```js
-   server: {
-     host: "localhost",
-     ...
-   ```
-
-### I can't get past the ngrok "Visit site" page
-
-When you’re previewing your app or extension, you might see an ngrok interstitial page with a warning:
-
-```text
-You are about to visit <id>.ngrok.io: Visit Site
-```
-
-If you click the `Visit Site` button, but continue to see this page, then you should run dev using an alternate tunnel URL that you run using tunneling software.
-We've validated that [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/run-tunnel/trycloudflare/) works with this template.
-
-To do that, you can [install the `cloudflared` CLI tool](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/), and run:
-
-```shell
-# Note that you can also use a different port
-cloudflared tunnel --url http://localhost:3000
-```
-
-Out of the logs produced by cloudflare you will notice a https URL where the domain ends with `trycloudflare.com`. This is your tunnel URL. You need to copy this URL as you will need it in the next step.
-
-```shell
-2022-11-11T19:57:55Z INF Requesting new quick Tunnel on trycloudflare.com...
-2022-11-11T19:57:58Z INF +--------------------------------------------------------------------------------------------+
-2022-11-11T19:57:58Z INF |  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |
-2022-11-11T19:57:58Z INF |  https://randomly-generated-hostname.trycloudflare.com                                     |
-2022-11-11T19:57:58Z INF +--------------------------------------------------------------------------------------------+
-```
-
-Below you would replace `randomly-generated-hostname` with what you have copied from the terminal. In a different terminal window, navigate to your app's root and with the URL from above you would call:
-
-```shell
-# Using yarn
-yarn dev --tunnel-url https://randomly-generated-hostname.trycloudflare.com:3000
-# or using npm
-npm run dev --tunnel-url https://randomly-generated-hostname.trycloudflare.com:3000
-# or using pnpm
-pnpm dev --tunnel-url https://randomly-generated-hostname.trycloudflare.com:3000
-```
-
-## Developer resources
-
-- [Introduction to Shopify apps](https://shopify.dev/docs/apps/getting-started)
-- [App authentication](https://shopify.dev/docs/apps/auth)
-- [Shopify CLI](https://shopify.dev/docs/apps/tools/cli)
-- [Shopify API Library documentation](https://github.com/Shopify/shopify-api-js#readme)
-- [Getting started with internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
-  - [i18next](https://www.i18next.com/)
-    - [Configuration options](https://www.i18next.com/overview/configuration-options)
-  - [react-i18next](https://react.i18next.com/)
-    - [`useTranslation` hook](https://react.i18next.com/latest/usetranslation-hook)
-    - [`Trans` component usage with components array](https://react.i18next.com/latest/trans-component#alternative-usage-components-array)
-  - [i18n-ally VS Code extension](https://marketplace.visualstudio.com/items?itemName=Lokalise.i18n-ally)
+I would like to thank the community from the Shopify Developer's Discord, who patiently helped me with getting started on the Shopify app node template and explaining how to work with it. To my GA instructor Simon, who supported me in developing this app and provided guidance through the course. And of course, to my classmates in GA who played a part in my learning and helped when I was stuck, either with practical or moral support. 

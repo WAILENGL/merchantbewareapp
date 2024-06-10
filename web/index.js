@@ -24,7 +24,11 @@ const app = express();
 
 mongoose
 	.connect(
-		'mongodb+srv://waileng:NESBHCN6dcrEwu19@development.qq3anuj.mongodb.net/Data?retryWrites=true&w=majority&appName=Development'
+		'mongodb+srv://waileng:NESBHCN6dcrEwu19@development.qq3anuj.mongodb.net/Data?retryWrites=true&w=majority&appName=Development',  {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			serverSelectionTimeoutMS: 30000 // Increase timeout to 30 seconds
+		}
 	)
 	.then((response) => console.log('mongoDB Connected', response))
 	.catch((err) => console.log('mongoDB error', err.message));
@@ -52,7 +56,7 @@ app.get('/api/products/count', async (_req, res) => {
 	res.status(200).send(countData);
 });
 
-app.get('/api/customer/signleCustomer/:id', async (_req, res) => {
+app.get('/api/customer/singleCustomer/:id', async (_req, res) => {
 	try {
 		const customer = await shopify.api.rest.Customer.find({
 			session: res.locals.shopify.session,
