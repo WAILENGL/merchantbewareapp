@@ -119,26 +119,39 @@ export default function Orders() {
 					/>
 				</Card>
 				<Card>
-					{loading? (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20px'}}><Spinner /></div>) :
-					(<IndexTable
-						resourceName={resourceName}
-						itemCount={filteredOrders.length}
-						selectedItemsCount={
-							allResourcesSelected ? 'All' : selectedResources.length
-						}
-						onSelectionChange={handleSelectionChange}
-						headings={[
-							{ title: 'Order' },
-							{ title: 'Customer Name' },
-							{ title: 'Customer email' },
-							{ title: 'Order Total' },
-							{ title: 'Payment status' },
-							{ title: 'Tags' },
-							{ title: '' },
-						]}
-					>
-						{rowMarkup}
-					</IndexTable>)}
+					{loading ? (
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '20px',
+							}}
+						>
+							<Spinner />
+						</div>
+					) : (
+						<IndexTable
+							resourceName={resourceName}
+							itemCount={filteredOrders.length}
+							selectedItemsCount={
+								allResourcesSelected ? 'All' : selectedResources.length
+							}
+							onSelectionChange={handleSelectionChange}
+							headings={[
+								{ title: 'Order' },
+								{ title: 'Customer Name' },
+								{ title: 'Customer email' },
+								{ title: 'Order Total' },
+								{ title: 'Payment status' },
+								{ title: 'Tags' },
+								{ title: '' },
+							]}
+						>
+							{rowMarkup}
+						</IndexTable>
+					)}
 				</Card>
 			</div>
 		</Page>

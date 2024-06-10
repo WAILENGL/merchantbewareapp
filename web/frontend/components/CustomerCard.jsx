@@ -42,17 +42,15 @@ export default function CustomerItemCard({ customer }) {
 						)}
 					</TextContainer>
 					<TextContainer>
-						Most Recent Order: {last_order_name}
-						<br />
 						Total Spent: {total_spent}
 						<br />
 						Tags: {tags}
 					</TextContainer>
 				</div>
 			</Card.Section>
-			<Card.Section title="Notes" subdued>
+			<Card.Section title="Reports" subdued>
 				<TextContainer>
-					<p>{report?.reason}</p>
+					<p>Reason for Report: {report?.reason}</p>
 
 					<p>{report?.content}</p>
 					<Text>

@@ -22,12 +22,18 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 	const [notes, setNotes] = useState('');
 	const [customerInfo, setCustomerInfo] = useState({});
 	let [searchParams, setSearchParams] = useSearchParams();
-	const reasons = ['Chargeback', 'Unreasonable', 'Harassment', 'Others'];
+	const reasons = [
+		'Chargeback',
+		'Excessive Refunds',
+		'Unreasonable',
+		'Harassment',
+		'Others',
+	];
 	const fetch = useAuthenticatedFetch();
 	const [reason, setReason] = useState('Chargeback');
 	const [toastActive, setToastActive] = useState(false);
 	const [toastMessage, setToastMessage] = useState('');
-	const toastDuration = 1000; // Duration in milliseconds
+	const toastDuration = 2000; // Duration in milliseconds
 
 	const userId = searchParams.get('userId');
 	const isEdit = searchParams.get('isEdit');

@@ -18,12 +18,11 @@ export default function BadCustomerItemCard({ customer }) {
 							{addresses[0].zip}, {addresses[0].country_code}
 						</>
 					)}
-					<p>Reason for Report: Chargeback</p>
 				</TextContainer>
 			</Card.Section>
 			<Card.Section title="Reports" subdued>
 				<TextContainer>
-					<p>{report?.reason}</p>
+					<p>Reason for Report: {report?.reason}</p>
 					<p>{report?.content}</p>
 				</TextContainer>
 			</Card.Section>
