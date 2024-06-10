@@ -1,30 +1,29 @@
 {
-  "name": "merchant-beware-app",
-  "version": "1.0.0",
-  "main": "web/index.js",
-  "license": "UNLICENSED",
-  "scripts": {
-    "shopify": "shopify",
-    "build": "shopify app build",
-    "dev": "shopify app dev",
-    "info": "shopify app info",
-    "generate": "shopify app generate",
-    "deploy": "shopify app deploy"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "@shopify/app-bridge-react": "^4.1.3",
-    "@shopify/polaris": "^13.4.0",
-    "i18next": "^23.11.5",
-    "react-i18next": "^14.1.2",
-    "react-router-dom": "^6.23.1",
-
-  },
-  "author": "rando",
-  "private": true,
-  "workspaces": [
-    "extensions/*",
-    "web",
-    "web/frontend"
-  ]
+	"name": "merchant-beware-app",
+	"version": "1.0.0",
+	"main": "web/index.js",
+	"license": "UNLICENSED",
+	"scripts": {
+		"shopify": "shopify",
+		"build": "shopify app build",
+		"dev": "shopify app dev",
+		"info": "shopify app info",
+		"generate": "shopify app generate",
+		"deploy": "shopify app deploy"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"@shopify/app-bridge-react": "^4.1.3",
+		"@shopify/polaris": "^13.4.0",
+		"i18next": "^23.11.5",
+		"react-i18next": "^14.1.2",
+		"react-router-dom": "^6.23.1"
+	},
+	"author": "rando",
+	"private": true,
+	"workspaces": [
+		"extensions/*",
+		"web",
+		"web/frontend"
+	]
 }

@@ -80,7 +80,7 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 
 	async function fetchCustomers() {
 		try {
-			let request = await fetch(`/api/customer/signleCustomer/${userId}`);
+			let request = await fetch(`/api/customer/singleCustomer/${userId}`);
 			let customerResponse = await request.json();
 			console.log({ customerResponse });
 			setCustomerInfo(customerResponse);
