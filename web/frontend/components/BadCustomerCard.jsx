@@ -21,7 +21,7 @@ export default function BadCustomerItemCard({ customer }) {
 					<p>Reason for Report: Chargeback</p>
 				</TextContainer>
 			</Card.Section>
-			<Card.Section title="Notes" subdued>
+			<Card.Section title="Reports" subdued>
 				<TextContainer>
 					<p>{report?.reason}</p>
 					<p>{report?.content}</p>
