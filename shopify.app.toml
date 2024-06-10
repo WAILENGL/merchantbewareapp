@@ -3,7 +3,7 @@
 client_id = "8be7878f3a77c46dbec9f0d73a46938b"
 name = "MerchantBewareApp"
 handle = "merchantbeware"
-application_url = "https://zip-cached-fun-fortune.trycloudflare.com"
+application_url = "https://merchantbewareapp.onrender.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_orders,write_customers,write_orders,write_products
 
 [auth]
 redirect_urls = [
-  "https://zip-cached-fun-fortune.trycloudflare.com/auth/callback",
-  "https://zip-cached-fun-fortune.trycloudflare.com/auth/shopify/callback",
-  "https://zip-cached-fun-fortune.trycloudflare.com/api/auth/callback"
+  "https://merchantbewareapp.onrender.com/auth/callback",
+  "https://merchantbewareapp.onrender.com/auth/shopify/callback",
+  "https://merchantbewareapp.onrender.com/api/auth/callback"
 ]
 
 [webhooks]

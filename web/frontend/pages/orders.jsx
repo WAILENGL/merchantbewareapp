@@ -106,19 +106,7 @@ export default function Orders() {
 
 	return (
 		<Page fullWidth>
-			<TitleBar
-				title={t('Search Orders')}
-				primaryAction={{
-					content: t('PageName.primaryAction'),
-					onAction: () => console.log('Primary action'),
-				}}
-				secondaryActions={[
-					{
-						content: t('PageName.secondaryAction'),
-						onAction: () => console.log('Secondary action'),
-					},
-				]}
-			/>
+			<TitleBar title={t('Search Orders')} />
 			<div>
 				<Card sectioned>
 					<TextField
