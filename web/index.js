@@ -24,11 +24,7 @@ const app = express();
 
 mongoose
 	.connect(
-		'mongodb+srv://waileng:NESBHCN6dcrEwu19@development.qq3anuj.mongodb.net/Data?retryWrites=true&w=majority&appName=Development',  {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			serverSelectionTimeoutMS: 30000 // Increase timeout to 30 seconds
-		}
+		'mongodb+srv://waileng:NESBHCN6dcrEwu19@development.qq3anuj.mongodb.net/Data?retryWrites=true&w=majority&appName=Development'
 	)
 	.then((response) => console.log('mongoDB Connected', response))
 	.catch((err) => console.log('mongoDB error', err.message));
