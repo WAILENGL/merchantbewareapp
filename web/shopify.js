@@ -21,6 +21,7 @@ const shopify = shopifyApp({
     apiVersion: LATEST_API_VERSION,
     restResources,
     billing: undefined, // or replace with billingConfig above to enable example billing
+    hostName: process.env.SHOPIFY_APP_URL
   },
   auth: {
     path: "/api/auth",
