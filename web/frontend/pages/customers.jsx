@@ -6,6 +6,7 @@ import {
 	IndexTable,
 	useIndexResourceState,
 	TextField,
+	Spinner,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
@@ -16,10 +17,9 @@ export default function Customers() {
 	const { t } = useTranslation();
 	const [customers, setCustomers] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [loading, setLoading] = useState(true);
 	const fetch = useAuthenticatedFetch();
-	const orders = [
-		// Your orders data here
-	];
+	const orders = [];
 
 	const resourceName = {
 		singular: 'customer',
@@ -37,6 +37,8 @@ export default function Customers() {
 			setCustomers(customersResponse);
 		} catch (err) {
 			console.log({ err });
+		} finally {
+			setLoading(false);
 		}
 	}
 	async function fetchBadCustomerTarget() {
@@ -106,30 +108,15 @@ export default function Customers() {
 						{first_name} {last_name}
 					</Text>
 				</IndexTable.Cell>
-				//{' '}
-				<IndexTable.Cell>
-					// {addresses && addresses[0] ? addresses[0].address1 : ''}, //{' '}
-					{addresses && addresses[0] ? addresses[0].address2 : ''}, //{' '}
-					{addresses && addresses[0] ? addresses[0].city : ''}, //{' '}
-					{addresses && addresses[0] ? addresses[0].province_code : ''}, //{' '}
-					{addresses && addresses[0] ? addresses[0].zip : ''}, //{' '}
-					{addresses && addresses[0] ? addresses[0].country_code : ''}
-					//{' '}
-				</IndexTable.Cell>
-				<IndexTable.Cell>{email}</IndexTable.Cell>
-				<IndexTable.Cell>{last_order_name}</IndexTable.Cell>
-				<IndexTable.Cell>{total_spent}</IndexTable.Cell>
-				<IndexTable.Cell>{tags}</IndexTable.Cell>
+				{/* Other cells */}
 			</IndexTable.Row>
 		)
 	);
 
 	return (
 		<Page fullWidth>
-			<TitleBar
-				title={t('Your Customers')}
+			<TitleBar title={t('Your Customers')} />
 
-			/>
 			<div>
 				<Card sectioned>
 					<TextField
@@ -140,11 +127,15 @@ export default function Customers() {
 					/>
 				</Card>
 
-				<div style={{ marginTop: '20px' }}>
-					{filteredCustomers.map((customer) => (
-						<CustomerItemCard key={customer.id} customer={customer} />
-					))}
-				</div>
+				{loading ? (
+					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20px'}}><Spinner /></div>
+				) : (
+					<div style={{ marginTop: '20px' }}>
+						{filteredCustomers.map((customer) => (
+							<CustomerItemCard key={customer.id} customer={customer} />
+						))}
+					</div>
+				)}
 			</div>
 		</Page>
 	);

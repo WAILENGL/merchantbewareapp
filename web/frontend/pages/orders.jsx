@@ -11,6 +11,7 @@ import {
 	TextField,
 	Link,
 	Button,
+	Spinner,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +22,7 @@ export default function Orders() {
 	const [orders, setOrders] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const fetch = useAuthenticatedFetch();
+	const [loading, setLoading] = useState(true);
 
 	const resourceName = {
 		singular: 'order',
@@ -37,6 +39,8 @@ export default function Orders() {
 			setOrders(ordersResponse?.data);
 		} catch (err) {
 			console.log({ err });
+		} finally {
+			setLoading(false);
 		}
 	}
 
@@ -71,7 +75,7 @@ export default function Orders() {
 				addresses,
 				financial_status,
 				tags,
-				notes,
+				report,
 			},
 			index
 		) => (
@@ -95,9 +99,7 @@ export default function Orders() {
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
 				<IndexTable.Cell>
 					<Link to="/edit">
-						<Button>
-							{notes && notes.length > 0 ? 'Edit Report' : 'Create Report'}
-						</Button>
+						<Button>{report ? 'Edit Report' : 'Create Report'}</Button>
 					</Link>
 				</IndexTable.Cell>
 			</IndexTable.Row>
@@ -117,7 +119,8 @@ export default function Orders() {
 					/>
 				</Card>
 				<Card>
-					<IndexTable
+					{loading? (<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20px'}}><Spinner /></div>) :
+					(<IndexTable
 						resourceName={resourceName}
 						itemCount={filteredOrders.length}
 						selectedItemsCount={
@@ -135,7 +138,7 @@ export default function Orders() {
 						]}
 					>
 						{rowMarkup}
-					</IndexTable>
+					</IndexTable>)}
 				</Card>
 			</div>
 		</Page>
