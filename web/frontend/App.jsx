@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NavigationMenu } from '@shopify/app-bridge-react';
 import CustomerContext from './store/CustomerContext';
+import ShopContext from './store/ShopContext';
 import Routes from './Routes';
 
 import {
@@ -17,40 +18,35 @@ export default function App() {
 	const { t } = useTranslation();
 
 	return (
-		
 		<PolarisProvider>
-		
 			<BrowserRouter>
 				<AppBridgeProvider>
-				<CustomerContext>
-					<QueryProvider>
-						<NavigationMenu
-							navigationLinks={[
-                {
-									label: t('Search Database'),
-									destination: '/badcustomers',
-								},
-          						
-								{
-									label: t('Your Customers'),
-									destination: '/customers',
-								},
-                {
-									label: t('Your Orders'),
-									destination: '/orders',
-								},
-               
-							]}
-						/>
-						<Routes pages={pages} />
-					</QueryProvider>
+					<CustomerContext>
+						<ShopContext>
+							<QueryProvider>
+								<NavigationMenu
+									navigationLinks={[
+										{
+											label: t('Search Database'),
+											destination: '/badcustomers',
+										},
+
+										{
+											label: t('Your Customers'),
+											destination: '/customers',
+										},
+										{
+											label: t('Your Orders'),
+											destination: '/orders',
+										},
+									]}
+								/>
+								<Routes pages={pages} />
+							</QueryProvider>
+						</ShopContext>
 					</CustomerContext>
 				</AppBridgeProvider>
 			</BrowserRouter>
-			
 		</PolarisProvider>
-
-
-
 	);
 }

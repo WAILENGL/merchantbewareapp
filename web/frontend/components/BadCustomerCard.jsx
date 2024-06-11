@@ -7,18 +7,23 @@ export default function BadCustomerItemCard({ customer }) {
 	return (
 		<Card>
 			<Card.Section>
-				<TextContainer>
-					{`${first_name} ${last_name}`} <br />
-					{email}
-					<br />
-					{addresses && addresses[0] && (
-						<>
-							{addresses[0].address1}, {addresses[0].address2},{' '}
-							{addresses[0].city}, {addresses[0].province_code},{' '}
-							{addresses[0].zip}, {addresses[0].country_code}
-						</>
-					)}
-				</TextContainer>
+				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<TextContainer>
+						{`${first_name} ${last_name}`} <br />
+						{email}
+						<br />
+						{addresses && addresses[0] && (
+							<>
+								{addresses[0].address1}, {addresses[0].address2},{' '}
+								{addresses[0].city}, {addresses[0].province_code},{' '}
+								{addresses[0].zip}, {addresses[0].country_code}
+							</>
+						)}
+					</TextContainer>
+					<TextContainer>
+					 Reported by {report?.shopName}
+					</TextContainer>
+				</div>
 			</Card.Section>
 			<Card.Section title="Reports" subdued>
 				<TextContainer>

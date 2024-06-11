@@ -45,6 +45,8 @@ export default function CustomerItemCard({ customer }) {
 						Total Spent: {total_spent}
 						<br />
 						Tags: {tags}
+						<br />
+						Reported by {report?.shopName}
 					</TextContainer>
 				</div>
 			</Card.Section>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {
 	Card,
 	Page,
@@ -14,11 +14,11 @@ import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-
+import { ShopContext } from '../store/ShopContext';
 export default function ReportForm({ customerEmail, customerAddress }) {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
-
+	const [shop, setShop] = useContext(ShopContext);
 	const [notes, setNotes] = useState('');
 	const [customerInfo, setCustomerInfo] = useState({});
 	let [searchParams, setSearchParams] = useSearchParams();
@@ -34,16 +34,18 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 	const [toastActive, setToastActive] = useState(false);
 	const [toastMessage, setToastMessage] = useState('');
 	const toastDuration = 2000; // Duration in milliseconds
-	
+
 	const userId = searchParams.get('userId');
 	const isEdit = searchParams.get('isEdit');
 
+	console.log({ shop });
 	const handleSave = async () => {
 		try {
 			const updateData = await fetch(`/api/customer/report/${userId}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
+					shop: shop?.name,
 					reason: reason,
 					content: notes,
 				}),
@@ -56,8 +58,7 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 			}
 		} catch (err) {
 			console.log(err);
-		}
-		finally{
+		} finally {
 			navigate(-1);
 		}
 	};
@@ -102,8 +103,7 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 			}
 		} catch (err) {
 			console.log(err);
-		}
-		finally {
+		} finally {
 			navigate(-1);
 		}
 	};

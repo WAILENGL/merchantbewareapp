@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const reportSchema = new Schema(
 	{
+		shopName: String,
 		id: Number,
 		email: String,
 		reason: String,

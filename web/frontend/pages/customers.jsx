@@ -65,20 +65,12 @@ export default function Customers() {
 			console.log(err.message);
 		}
 	}
-	async function fetchShopInfo() {
-		try {
-			let request = await fetch('/api/shop');
-			let shopResponse = await request.json();
-			console.log({ shopResponse });
-		} catch (err) {
-			console.log(err.message);
-		}
-	}
+	
 
 	useEffect(() => {
 		fetchCustomers();
 		fetchBadCustomerTarget();
-		fetchShopInfo();
+		// fetchShopInfo();
 	}, []);
 
 	const filteredCustomers = customers.filter((customer) => {
