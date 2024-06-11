@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NavigationMenu } from '@shopify/app-bridge-react';
+import CustomerContext from './store/CustomerContext';
 import Routes from './Routes';
 
 import {
@@ -16,9 +17,12 @@ export default function App() {
 	const { t } = useTranslation();
 
 	return (
+		
 		<PolarisProvider>
+		
 			<BrowserRouter>
 				<AppBridgeProvider>
+				<CustomerContext>
 					<QueryProvider>
 						<NavigationMenu
 							navigationLinks={[
@@ -40,8 +44,13 @@ export default function App() {
 						/>
 						<Routes pages={pages} />
 					</QueryProvider>
+					</CustomerContext>
 				</AppBridgeProvider>
 			</BrowserRouter>
+			
 		</PolarisProvider>
+
+
+
 	);
 }

@@ -12,6 +12,7 @@ import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
 import CustomerItemCard from '../components/CustomerCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function Customers() {
 	const { t } = useTranslation();
@@ -20,7 +21,7 @@ export default function Customers() {
 	const [loading, setLoading] = useState(true);
 	const fetch = useAuthenticatedFetch();
 	const orders = [];
-
+	const navigate = useNavigate();
 	const resourceName = {
 		singular: 'customer',
 		plural: 'customers',
@@ -30,29 +31,54 @@ export default function Customers() {
 		useIndexResourceState(orders);
 
 	async function fetchCustomers() {
+		setLoading(true); // Ensure loading state is set at the start
 		try {
-			let request = await fetch('/api/customers');
-			let customersResponse = await request.json();
+			let response = await fetch('/api/customers');
+
+			// Check if response is okay
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+
+			// Log raw response
+			let textResponse = await response.text();
+			console.log({ textResponse });
+
+			// Try to parse JSON
+			let customersResponse = JSON.parse(textResponse);
 			console.log({ customersResponse });
+
 			setCustomers(customersResponse);
 		} catch (err) {
-			console.log({ err });
+			console.log('Error:', err.message);
 		} finally {
 			setLoading(false);
 		}
 	}
+
 	async function fetchBadCustomerTarget() {
 		try {
 			let request = await fetch('/api/customers/badCustomerTarget');
 			let customersResponse = await request.json();
+			console.log({ customersResponse });
 		} catch (err) {
-			console.log({ err });
+			console.log(err.message);
+		}
+	}
+	async function fetchShopInfo() {
+		try {
+			let request = await fetch('/api/shop');
+			let shopResponse = await request.json();
+			console.log({ shopResponse });
+		} catch (err) {
+			console.log(err.message);
 		}
 	}
 
 	useEffect(() => {
 		fetchCustomers();
 		fetchBadCustomerTarget();
+		fetchShopInfo();
 	}, []);
 
 	const filteredCustomers = customers.filter((customer) => {
@@ -128,7 +154,17 @@ export default function Customers() {
 				</Card>
 
 				{loading ? (
-					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20px'}}><Spinner /></div>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '20px',
+						}}
+					>
+						<Spinner />
+					</div>
 				) : (
 					<div style={{ marginTop: '20px' }}>
 						{filteredCustomers.map((customer) => (

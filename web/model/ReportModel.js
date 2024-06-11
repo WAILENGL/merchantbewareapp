@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-const repotSchema = new Schema(
+const reportSchema = new Schema(
 	{
 		id: Number,
 		email: String,
@@ -12,4 +12,4 @@ const repotSchema = new Schema(
 	{ timeStamp: true }
 );
 
-export const ReportModel = mongoose.model('report', repotSchema);
+export const ReportModel = mongoose.model('report', reportSchema);

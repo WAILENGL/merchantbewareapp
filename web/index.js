@@ -65,7 +65,25 @@ app.get('/api/orders', async (_req, res) => {
 			session: res.locals.shopify.session,
 			status: 'any',
 		});
-		res.status(200).send(orders);
+
+		const reportsOnOrder = await Promise.all(orders?.data?.map(async (data) => {
+			try{
+				const reportCheck = await ReportModel.findOne({email:data?.customer?.email});
+				if(reportCheck){
+					return {...data, report:reportCheck}
+				}
+				else{
+					return {...data, report:null}
+				}
+			}
+			catch(err){
+
+			}
+		}))
+
+
+
+		res.status(200).send(reportsOnOrder);
 	} catch (err) {
 		res.status(err.statusCode).send(err.message);
 	}
@@ -222,7 +240,7 @@ app.delete('/api/customers/report/:id', async (_req, res) => {
 		res.status(200).send('Deleted');
 	} catch (err) {
 		const status = err.status || 500;
-		res.status(status).send({ message: err.message });
+		res.status(status).send({ message: err.message });6
 	}
 });
 
@@ -249,15 +267,20 @@ app.put('/api/customer/report/:id', async (_req, res) => {
 		});
 
 		const badOrders = findOrder?.orders?.map(async (item, index) => {
-			const orders = new shopify.api.rest.Order({
-				session: res.locals.shopify.session,
-			});
-			orders.id = item?.id;
-			orders.tags = 'bad customer';
-
-			return await orders.save({
-				update: true,
-			});
+			try{
+				const orders = new shopify.api.rest.Order({
+					session: res.locals.shopify.session,
+				});
+				orders.id = item?.id;
+				orders.tags = 'bad customer';
+	
+				return await orders.save({
+					update: true,
+				});
+			}
+			catch (err) {
+				return err.message
+			}
 		});
 
 		await Promise.all(badOrders);
@@ -280,7 +303,7 @@ app.put('/api/customer/report/:id', async (_req, res) => {
 			content: _req.body.content,
 		};
 
-		try {
+
 			const findUserMongoDB = await CustomerModel.findOne({
 				email: customerInfo?.email,
 			});
@@ -288,10 +311,6 @@ app.put('/api/customer/report/:id', async (_req, res) => {
 				email: customerInfo?.email,
 			});
 
-			if (!findReportDB) {
-				const newreports = new ReportModel(newReport);
-				await newreports.save();
-			}
 
 			if (!findUserMongoDB) {
 				console.log('New customer not found, creating...');
@@ -307,16 +326,20 @@ app.put('/api/customer/report/:id', async (_req, res) => {
 
 				await newCustomer.save();
 
+
+				
+					const newreports = new ReportModel(newReport);
+					await newreports.save();
+	
+
 				console.log('New customer created:', newCustomer);
 			}
+			else{
+				const newreports = new ReportModel(newReport);
+				await newreports.save();
+			}
 
-			res.status(200).send('Customer report updated successfully');
-		} catch (err) {
-			console.error('Error updating customer report:', err);
-			res.status(500).send(`Error updating customer report: ${err.message}`);
-		}
-
-		res.status(200).send('Report successfully done');
+		res.status(200).send({...customer});
 	} catch (err) {
 		res.status(err.code).send(err.message);
 	}
@@ -348,39 +371,60 @@ app.get('/api/customers/badcustomerDb', async (_req, res) => {
 	}
 });
 
-app.get('/api/customers', async (_req, res) => {
+
+app.get('/api/shop', async (_req, res) => {
 	try {
-		const customers = await shopify.api.rest.Customer.all({
+		const result = await shopify.api.rest.Shop.all({
 			session: res.locals.shopify.session,
 		});
+		res.status(200).send(result)
+	}
+	catch(error){
+		res.status(500).send('Internal Server Error');
+	}
+})
 
-		if (!customers?.data) {
-			return res.status(500).send('Failed to retrieve customers');
-		}
+app.get('/api/customers', async (_req, res) => {
+  try {
+    // Ensure session is available
+    const session = res.locals.shopify.session;
+    if (!session) {
+      return res.status(401).send('Unauthorized: Session is missing');
+    }
 
-		const customersDataPromise = customers.data.map(async (customer) => {
-			try {
-				const reportOnDb = await ReportModel.findOne({ id: customer?.id });
-				return { ...customer, report: reportOnDb };
-			} catch (error) {
-				console.error(
-					`Error fetching report for customer ID ${customer?.id}:`,
-					error
-				);
-				return { ...customer, report: null, error: error.message };
-			}
-		});
+    // Fetch customers from Shopify
+    const customers = await shopify.api.rest.Customer.all({ session });
 
-		const customersData = await Promise.all(customersDataPromise);
+    // Check if customer data is available
+    if (!customers?.data) {
+      return res.status(500).send('Failed to retrieve customers');
+    }
 
+    // Fetch reports for each customer
+    const customersDataPromise = customers.data.map(async (customer) => {
+      try {
+        const reportOnDb = await ReportModel.findOne({ id: customer?.id });
+        return { ...customer, report: reportOnDb };
+      } catch (error) {
+        console.error(`Error fetching report for customer ID ${customer?.id}:`, error);
+        return { ...customer, report: null, error: error.message };
+      }
+    });
+
+    const customersData = await Promise.all(customersDataPromise);
+
+    // Send the final data
 		setTimeout(() => {
 			res.status(200).json(customersData);
-		}, 100);
-	} catch (err) {
-		console.error('Error in /api/customers:', err);
-		res.status(500).send(err.message);
-	}
+		}, 200)
+  } catch (err) {
+    console.error('Error in /api/customers:', err);
+    res.status(500).send('unhandled error');
+  }
 });
+
+
+
 
 app.get('/api/customers/badCustomerTarget', async (_req, res) => {
 	try {
@@ -418,8 +462,9 @@ app.get('/api/customers/badCustomerTarget', async (_req, res) => {
 		});
 
 		await Promise.all(customerPromises);
-
-		res.status(200).json(customers);
+		setTimeout(() => {
+			res.status(200).json(customers);
+		}, 200)
 	} catch (err) {
 		res.status(500).send(err.message);
 	}

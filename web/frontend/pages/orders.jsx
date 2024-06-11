@@ -11,19 +11,17 @@ import {
 	TextField,
 	Link,
 	Button,
-	Spinner,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
-
+import {useNavigate} from 'react-router-dom'
 export default function Orders() {
 	const { t } = useTranslation();
 	const [orders, setOrders] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const fetch = useAuthenticatedFetch();
-	const [loading, setLoading] = useState(true);
-
+	const navigate = useNavigate();
 	const resourceName = {
 		singular: 'order',
 		plural: 'orders',
@@ -36,11 +34,10 @@ export default function Orders() {
 		try {
 			let request = await fetch('/api/orders');
 			let ordersResponse = await request.json();
-			setOrders(ordersResponse?.data);
+			console.log({ ordersResponse });
+			setOrders(ordersResponse);
 		} catch (err) {
 			console.log({ err });
-		} finally {
-			setLoading(false);
 		}
 	}
 
@@ -76,6 +73,7 @@ export default function Orders() {
 				financial_status,
 				tags,
 				report,
+				notes,
 			},
 			index
 		) => (
@@ -98,9 +96,9 @@ export default function Orders() {
 				<IndexTable.Cell>{financial_status}</IndexTable.Cell>
 				<IndexTable.Cell>{tags}</IndexTable.Cell>
 				<IndexTable.Cell>
-					<Link to="/edit">
-						<Button>{report ? 'Edit Report' : 'Create Report'}</Button>
-					</Link>
+					
+						<Button onClick={() => navigate(report ? `/edit?userId=${report?.id || customer?.id}&isEdit=true` : `/edit?userId=${report?.id ||  customer?.id}`)}>{report ? 'Edit Report' : 'Create Report'}</Button>
+				
 				</IndexTable.Cell>
 			</IndexTable.Row>
 		)
@@ -119,39 +117,25 @@ export default function Orders() {
 					/>
 				</Card>
 				<Card>
-					{loading ? (
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								justifyContent: 'center',
-								marginTop: '20px',
-							}}
-						>
-							<Spinner />
-						</div>
-					) : (
-						<IndexTable
-							resourceName={resourceName}
-							itemCount={filteredOrders.length}
-							selectedItemsCount={
-								allResourcesSelected ? 'All' : selectedResources.length
-							}
-							onSelectionChange={handleSelectionChange}
-							headings={[
-								{ title: 'Order' },
-								{ title: 'Customer Name' },
-								{ title: 'Customer email' },
-								{ title: 'Order Total' },
-								{ title: 'Payment status' },
-								{ title: 'Tags' },
-								{ title: '' },
-							]}
-						>
-							{rowMarkup}
-						</IndexTable>
-					)}
+					<IndexTable
+						resourceName={resourceName}
+						itemCount={filteredOrders.length}
+						selectedItemsCount={
+							allResourcesSelected ? 'All' : selectedResources.length
+						}
+						onSelectionChange={handleSelectionChange}
+						headings={[
+							{ title: 'Order' },
+							{ title: 'Customer Name' },
+							{ title: 'Customer email' },
+							{ title: 'Order Total' },
+							{ title: 'Payment status' },
+							{ title: 'Tags' },
+							{ title: '' },
+						]}
+					>
+						{rowMarkup}
+					</IndexTable>
 				</Card>
 			</div>
 		</Page>

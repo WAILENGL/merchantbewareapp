@@ -78,7 +78,7 @@ export default function HomePage() {
 								</p>
 								<br />
 								<Button primary url="/orders">
-									Edit Your Reports
+								Search Your Orders
 								</Button>
 							</Card>
 						</Layout.Section>
@@ -138,7 +138,7 @@ export default function HomePage() {
 							<Link url="/customers">Search Your Customers</Link>
 						</p>
 						<p>
-							<Link url="/edit">Edit Reports</Link>
+							<Link url="/edit">Search Your Orders</Link>
 						</p>
 						<p>
 							<Link url="mailto:support@merchantbeware.com">Support</Link>

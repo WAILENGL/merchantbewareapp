@@ -1,11 +1,10 @@
-import express from 'express';
-import { getSingleCustomer, getCustomers } from '../controllers/customerController.js';
+// routes/customerRoutes.js
 
-const router = express.Router();
+import { Router } from 'express';
+import { getSingleCustomer } from '../controllers/customerController.js';
 
-router.get('/singleCustomer/:id', getSingleCustomer);
-router.get('/', getCustomers);
+const router = Router();
 
-// Define other customer-related routes here
+router.get('/api/customer/singleCustomer/:id', getSingleCustomer);
 
 export default router;

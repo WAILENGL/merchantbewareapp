@@ -34,7 +34,7 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 	const [toastActive, setToastActive] = useState(false);
 	const [toastMessage, setToastMessage] = useState('');
 	const toastDuration = 2000; // Duration in milliseconds
-
+	
 	const userId = searchParams.get('userId');
 	const isEdit = searchParams.get('isEdit');
 
@@ -56,6 +56,9 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 			}
 		} catch (err) {
 			console.log(err);
+		}
+		finally{
+			navigate(-1);
 		}
 	};
 
@@ -100,12 +103,15 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 		} catch (err) {
 			console.log(err);
 		}
+		finally {
+			navigate(-1);
+		}
 	};
 
 	const editValue = isEdit === 'true';
 
 	const handleCancel = () => {
-		navigate('/customers');
+		navigate(-1);
 	};
 
 	async function fetchCustomers() {
@@ -128,7 +134,7 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 	const toggleToastActive = useCallback(() => {
 		setToastActive((active) => !active);
 		setTimeout(() => {
-			navigate('/customers');
+			navigate(-1);
 		}, 100); // Delay to ensure Toast is dismissed before navigation
 	}, [navigate]);
 
