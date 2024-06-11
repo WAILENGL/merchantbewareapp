@@ -2,7 +2,6 @@ import shopify from '../shopify.js';
 import { ReportModel } from '../model/ReportModel.js';
 import { CustomerModel } from '../model/CustomersInfo.js';
 
-
 export const badCustomerReportUpdate = async (_req, res) => {
 	try {
 		const updateReport = await ReportModel.findByIdAndUpdate(
@@ -52,7 +51,7 @@ export const badCustomerReportDelete = async (_req, res) => {
 		res.status(status).send({ message: err.message });
 		6;
 	}
-}
+};
 
 export const badCustomerReportSave = async (_req, res) => {
 	try {
@@ -94,11 +93,6 @@ export const badCustomerReportSave = async (_req, res) => {
 
 		await Promise.all(badOrders);
 
-		// Adding a report to the customer's report array
-
-		// const findUserMongoDB = await CustomerModel.findOne({
-		// 	email: customerInfo?.email,
-		// });
 		const customerId = parseInt(_req.params.id);
 
 		if (isNaN(customerId)) {
@@ -106,7 +100,7 @@ export const badCustomerReportSave = async (_req, res) => {
 		}
 
 		const newReport = {
-			id: customerId, // Ensure this ID is unique or use a different method to generate unique IDs
+			id: customerId,
 			email: customerInfo?.email,
 			reason: _req.body.reason,
 			shopName: _req.body.shop,
@@ -147,7 +141,7 @@ export const badCustomerReportSave = async (_req, res) => {
 	} catch (err) {
 		res.status(err.code).send(err.message);
 	}
-}
+};
 
 export const getBadCustomerFromDB = async (_req, res) => {
 	try {
@@ -173,7 +167,7 @@ export const getBadCustomerFromDB = async (_req, res) => {
 		console.error(`Error fetching data: ${error.message}`);
 		res.status(500).send('Internal Server Error');
 	}
-}
+};
 
 export const customerReportCheck = async (_req, res) => {
 	try {
@@ -215,9 +209,7 @@ export const customerReportCheck = async (_req, res) => {
 		console.error('Error in /api/customers:', err);
 		res.status(500).send('unhandled error');
 	}
-}
-
-
+};
 
 export const badCustomerTarget = async (_req, res) => {
 	try {
@@ -261,4 +253,4 @@ export const badCustomerTarget = async (_req, res) => {
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
-}
+};

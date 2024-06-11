@@ -46,7 +46,6 @@ export default function CustomerItemCard({ customer }) {
 						<br />
 						Tags: {tags}
 						<br />
-						Reported by {report?.shopName}
 					</TextContainer>
 				</div>
 			</Card.Section>
