@@ -50,7 +50,7 @@ export default function ReportForm() {
 				}),
 			});
 			if (saveData.ok) {
-				// Optional: Handle success message or redirection here
+				
 			} else {
 				console.error('Failed to save report');
 			}
@@ -72,7 +72,7 @@ export default function ReportForm() {
 				}
 			);
 			if (DeletedData.ok) {
-				// Optional: Handle success message or redirection here
+			
 			} else {
 				console.error('Failed to delete report');
 			}
@@ -99,7 +99,7 @@ export default function ReportForm() {
 				}
 			);
 			if (updateData.ok) {
-				// Optional: Handle success message or redirection here
+			
 			} else {
 				console.error('Failed to update report');
 			}
