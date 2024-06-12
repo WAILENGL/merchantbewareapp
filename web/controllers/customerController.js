@@ -1,6 +1,7 @@
 import shopify from '../shopify.js';
 import { ReportModel } from '../model/ReportModel.js';
 import { CustomerModel } from '../model/CustomersInfo.js';
+
 export const getSingleCustomer = async (_req, res) => {
 	try {
 		const customer = await shopify.api.rest.Customer.find({

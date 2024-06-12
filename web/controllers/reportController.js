@@ -21,14 +21,13 @@ export const badCustomerReportDelete = async (_req, res) => {
 		});
 		customer.id = parseInt(_req.params.id);
 		customer.tags = '';
-		await customer.save({
-			update: true,
-		});
+		await customer.save({ update: true });
 
 		const findOrder = await shopify.api.rest.Customer.orders({
 			session: res.locals.shopify.session,
 			id: parseInt(_req.params.id),
 		});
+
 		const RemoveBadTags = findOrder?.orders?.map(async (item, index) => {
 			const orders = new shopify.api.rest.Order({
 				session: res.locals.shopify.session,
@@ -36,110 +35,95 @@ export const badCustomerReportDelete = async (_req, res) => {
 			orders.id = item?.id;
 			orders.tags = '';
 
-			return await orders.save({
-				update: true,
-			});
+			await orders.save({ update: true });
 		});
 
 		await Promise.all(RemoveBadTags);
-		await CustomerModel.deleteOne({ id: parseInt(_req.params.id) });
-		await ReportModel.deleteOne({ id: parseInt(_req.params.id) });
+
+		await Promise.all([
+			CustomerModel.deleteOne({ id: parseInt(_req.params.id) }),
+			ReportModel.deleteOne({ id: parseInt(_req.params.id) })
+		]);
 
 		res.status(200).send('Deleted');
 	} catch (err) {
-		const status = err.status || 500;
-		res.status(status).send({ message: err.message });
-		6;
+		console.error(err); // Log the error for debugging
+		res.status(500).send({ message: 'Internal Server Error' });
 	}
 };
 
+
 export const badCustomerReportSave = async (_req, res) => {
 	try {
+		const customerId = parseInt(_req.params.id);
+
+		// Fetch customer information from Shopify
 		const customerInfo = await shopify.api.rest.Customer.find({
 			session: res.locals.shopify.session,
-			id: parseInt(_req.params.id),
+			id: customerId,
 		});
 
+		// Fetch customer orders from Shopify
 		const findOrder = await shopify.api.rest.Customer.orders({
 			session: res.locals.shopify.session,
-			id: parseInt(_req.params.id),
+			id: customerId,
 		});
 
+		// Update customer tags to mark as bad customer
 		const customer = new shopify.api.rest.Customer({
 			session: res.locals.shopify.session,
 		});
-		customer.id = parseInt(_req.params.id);
+		customer.id = customerId;
 		customer.tags = 'bad customer';
+		await customer.save({ update: true });
 
-		await customer.save({
-			update: true,
+		// Update tags for bad orders
+		const badOrders = findOrder?.orders?.map(async (item) => {
+			const orders = new shopify.api.rest.Order({
+				session: res.locals.shopify.session,
+			});
+			orders.id = item?.id;
+			orders.tags = 'bad customer';
+			await orders.save({ update: true });
 		});
-
-		const badOrders = findOrder?.orders?.map(async (item, index) => {
-			try {
-				const orders = new shopify.api.rest.Order({
-					session: res.locals.shopify.session,
-				});
-				orders.id = item?.id;
-				orders.tags = 'bad customer';
-
-				return await orders.save({
-					update: true,
-				});
-			} catch (err) {
-				return err.message;
-			}
-		});
-
 		await Promise.all(badOrders);
 
-		const customerId = parseInt(_req.params.id);
-
-		if (isNaN(customerId)) {
-			return res.status(400).send('Invalid customer ID');
-		}
-
-		const newReport = {
+		// Create a new report
+		const newReport = new ReportModel({
+			shopName: _req.body.shop,
 			id: customerId,
 			email: customerInfo?.email,
 			reason: _req.body.reason,
-			shopName: _req.body.shop,
 			content: _req.body.content,
-		};
-
-		const findUserMongoDB = await CustomerModel.findOne({
-			email: customerInfo?.email,
 		});
-		const findReportDB = await ReportModel.findOne({
-			email: customerInfo?.email,
-		});
+		await newReport.save();
 
-		if (!findUserMongoDB) {
-			console.log('New customer not found, creating...');
+		// Check if the customer exists in MongoDB
+		let customerDoc = await CustomerModel.findOne({ email: customerInfo?.email });
 
-			const newCustomer = new CustomerModel({
+		// If the customer doesn't exist, create a new customer
+		if (!customerDoc) {
+			customerDoc = new CustomerModel({
 				id: customerId,
 				email: customerInfo?.email,
 				first_name: customerInfo?.first_name,
 				last_name: customerInfo?.last_name,
 				addresses: customerInfo?.addresses,
 				tags: 'bad customer',
+				reports: [newReport._id], // Add the new report to the reports array
 			});
-
-			await newCustomer.save();
-
-			const newreports = new ReportModel(newReport);
-			await newreports.save();
-
-			console.log('New customer created:', newCustomer);
 		} else {
-			const newreports = new ReportModel(newReport);
-			await newreports.save();
+			// If the customer exists, push the new report to the existing reports array
+			customerDoc.reports.push(newReport._id);
 		}
 
-		res.status(200).send({ ...customer });
+		// Save the updated customer document
+		await customerDoc.save();
+
+		res.status(200).send({ message: 'Report saved successfully' });
 	} catch (err) {
-		res.status(err.code).send(err.message);
+		console.error('Error:', err);
+		res.status(err.code || 500).send(err.message);
 	}
 };
 
@@ -229,6 +213,7 @@ export const badCustomerTarget = async (_req, res) => {
 				last_name: item.last_name,
 				addresses: item.addresses,
 				tags: item.tags,
+				reports: item.reports,
 			});
 
 			try {
