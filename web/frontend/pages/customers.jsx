@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	Card,
 	Page,
@@ -13,12 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
 import CustomerItemCard from '../components/CustomerCard';
 import { useNavigate } from 'react-router-dom';
+import { ShopContext } from '../store/ShopContext';
 
 export default function Customers() {
 	const { t } = useTranslation();
 	const [customers, setCustomers] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [loading, setLoading] = useState(true);
+	const [shop, setShop] = useContext(ShopContext);
 	const fetch = useAuthenticatedFetch();
 	const orders = [];
 	const navigate = useNavigate();
@@ -159,7 +161,11 @@ export default function Customers() {
 				) : (
 					<div style={{ marginTop: '20px' }}>
 						{filteredCustomers.map((customer) => (
-							<CustomerItemCard key={customer.id} customer={customer} />
+							<CustomerItemCard
+								key={customer.id}
+								customer={customer}
+								currentShopName={shop.name}
+							/>
 						))}
 					</div>
 				)}
