@@ -20,15 +20,20 @@ export default function BadCustomerItemCard({ customer }) {
 							</>
 						)}
 					</TextContainer>
-					<TextContainer>
-					 Reported by {report?.shopName}
-					</TextContainer>
 				</div>
 			</Card.Section>
-			<Card.Section title="Reports" subdued>
+			<Card.Section>
 				<TextContainer>
-					<p>Reason for Report: {report?.reason}</p>
-					<p>{report?.content}</p>
+					<b>Reported by:</b> {report?.shopName}
+				</TextContainer>
+				<TextContainer>
+					<p>
+						<b>Reason for Report:</b> {report?.reason}
+					</p>
+					<p>
+						<b>Comments</b>
+					</p>
+					{report?.content}
 				</TextContainer>
 			</Card.Section>
 		</Card>
