@@ -162,7 +162,7 @@ The biggest challenges I faced during the project mostly had to do with learning
 
 The breakthrough came when I joined a Shopify Developers' Discord, where I could ask a community of more experienced developers how to work with Shopify's APIs, and they helped me get started with the node app template. This reinforced how important communities are to development, even with good documentation for a platform's APIs and templates.
 
-Even then, every step was stll a challenge - from having to adapt what I'd planned to the app to deployment on Render. Render's documentation assumed that developers use the Remix template for Shopify apps, and I had to figure out how the Remix template's configuration differed from the node template's to deploy the app.
+Even then, every step was stll a challenge - from having to adapt what I'd planned and worked on to the app template to deployment on Render. Render's documentation assumed that developers use the Remix template for Shopify apps, and I had to figure out how the Remix template's configuration differed from the node template's to deploy the app with very little discussion or help available from other developers, as they did not have the same set up/configuration.
 
 Ultimately, as frustrating as the experience can be, nothing beats the satisfaction of seeing the final, working result. Doing projects in GA has certainly whetted my appetite for creating websites and apps that can be useful to people.
 
