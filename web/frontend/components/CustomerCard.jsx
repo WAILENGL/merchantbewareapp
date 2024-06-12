@@ -42,7 +42,7 @@ export default function CustomerItemCard({ customer, currentShopName }) {
 							}}
 						>
 							<Link
-								url={`/edit?userId=${id}`}
+								url={`/edit?userId=${id}&isEdit=true`}
 								onClick={() => console.log('Edit report')}
 							>
 								Edit Report
