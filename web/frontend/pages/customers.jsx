@@ -65,7 +65,6 @@ export default function Customers() {
 			console.log(err.message);
 		}
 	}
-	
 
 	useEffect(() => {
 		fetchCustomers();

@@ -2,7 +2,7 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import express from 'express';
-import shopifyEnv from 'dotenv'
+import shopifyEnv from 'dotenv';
 import serveStatic from 'serve-static';
 import mongoose from 'mongoose';
 import shopify from './shopify.js';
@@ -21,14 +21,14 @@ import {
 	badCustomerTarget,
 } from './controllers/reportController.js';
 import { getOrders } from './controllers/orderController.js';
-import { shopContoller } from './controllers/shopController.js';
+import { shopController } from './controllers/shopController.js';
 
 const PORT = parseInt(
 	process.env.BACKEND_PORT || process.env.PORT || '3000',
 	10
 );
 
-shopifyEnv.config({path: 'shopify.env'})
+shopifyEnv.config({ path: 'shopify.env' });
 
 const STATIC_PATH =
 	process.env.NODE_ENV === 'production'
@@ -37,12 +37,8 @@ const STATIC_PATH =
 
 const app = express();
 
-
-
 mongoose
-	.connect(
-		`${process.env.DB}`
-	)
+	.connect(`${process.env.DB}`)
 	.then((response) => console.log('mongoDB Connected', response))
 	.catch((err) => console.log('mongoDB error', err.message));
 
@@ -76,19 +72,18 @@ app.put('/api/customer/report/:id', badCustomerReportSave);
 
 app.get('/api/customers/badcustomerDb', getBadCustomerFromDB);
 
-app.get('/api/shop', shopContoller);
+app.get('/api/shop', shopController);
 
 app.get('/api/customers', customerReportCheck);
 
 app.get('/api/customers/badCustomerTarget', badCustomerTarget);
 app.get('/api/adminInfo', async (_req, res) => {
-	try{
-		res.status(500).send(res.locals.shopify.session)
+	try {
+		res.status(500).send(res.locals.shopify.session);
+	} catch (err) {
+		res.status(500).send(err.message);
 	}
-	catch(err){
-		res.status(500).send(err.message)
-	}
-})
+});
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));

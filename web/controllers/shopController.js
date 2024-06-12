@@ -1,6 +1,6 @@
 import shopify from '../shopify.js';
 
-export const shopContoller = async (_req, res) => {
+export const shopController = async (_req, res) => {
 	try {
 		const result = await shopify.api.rest.Shop.all({
 			session: res.locals.shopify.session,

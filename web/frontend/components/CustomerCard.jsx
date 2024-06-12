@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
 	Card,
 	TextContainer,
@@ -7,9 +7,8 @@ import {
 	Page,
 	TextField,
 } from '@shopify/polaris';
-import { useAuthenticatedFetch } from '../hooks';
 
-export default function CustomerItemCard({ customer }) {
+export default function CustomerItemCard({ customer, currentShopName }) {
 	const {
 		id,
 		first_name,
@@ -22,6 +21,58 @@ export default function CustomerItemCard({ customer }) {
 		notes,
 		report,
 	} = customer;
+
+	const renderReport = () => {
+		if (report && report.shopName === currentShopName) {
+			return (
+				<>
+					<b>Report</b>
+					<br />
+					<b>Reason for Report:</b> {report?.reason}
+					<br />
+					<b>Your Report:</b>
+					<br />
+					{report?.content}
+					<Text>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'flex-end',
+								gap: '8px',
+							}}
+						>
+							<Link
+								url={`/edit?userId=${id}`}
+								onClick={() => console.log('Edit report')}
+							>
+								Edit Report
+							</Link>
+						</div>
+					</Text>
+				</>
+			);
+		} else {
+			return (
+				<Text>
+					No report on customer from this shop
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							gap: '8px',
+						}}
+					>
+						<Link
+							url={`/edit?userId=${id}`}
+							onClick={() => console.log('Create report')}
+						>
+							Create Report
+						</Link>
+					</div>
+				</Text>
+			);
+		}
+	};
 
 	return (
 		<Card>
@@ -49,41 +100,8 @@ export default function CustomerItemCard({ customer }) {
 					</TextContainer>
 				</div>
 			</Card.Section>
-			<Card.Section title="Reports" subdued>
-				<TextContainer>
-					<p>Reason for Report: {report?.reason}</p>
-
-					<p>{report?.content}</p>
-					<Text>
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'flex-end',
-								gap: '8px',
-							}}
-						>
-							{notes ? (
-								<Link
-									url="/edit?userId=${id}"
-									onClick={() => console.log('Edit report')}
-								>
-									Edit Report
-								</Link>
-							) : (
-								<Link
-									url={
-										customer?.report
-											? `/edit?userId=${id}&isEdit=true`
-											: `/edit?userId=${id}`
-									}
-									onClick={() => console.log('Create report')}
-								>
-									{customer?.report ? 'Edit Report' : 'Create Report'}
-								</Link>
-							)}
-						</div>
-					</Text>
-				</TextContainer>
+			<Card.Section subdued>
+				<TextContainer>{renderReport()}</TextContainer>
 			</Card.Section>
 		</Card>
 	);
