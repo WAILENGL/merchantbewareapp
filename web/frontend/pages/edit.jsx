@@ -8,14 +8,15 @@ import {
 	Button,
 	TextContainer,
 	Frame,
-	Toast,
+	Spinner,
 } from '@shopify/polaris';
 import { TitleBar } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import { useAuthenticatedFetch } from '../hooks';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../store/ShopContext';
-export default function ReportForm({ customerEmail, customerAddress }) {
+
+export default function ReportForm() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const [shop, setShop] = useContext(ShopContext);
@@ -31,17 +32,15 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 	];
 	const fetch = useAuthenticatedFetch();
 	const [reason, setReason] = useState('Chargeback');
-	const [toastActive, setToastActive] = useState(false);
-	const [toastMessage, setToastMessage] = useState('');
-	const toastDuration = 2000; // Duration in milliseconds
+	const [loading, setLoading] = useState(false);
 
 	const userId = searchParams.get('userId');
 	const isEdit = searchParams.get('isEdit');
 
-	console.log({ shop });
 	const handleSave = async () => {
+		setLoading(true);
 		try {
-			const updateData = await fetch(`/api/customer/report/${userId}`, {
+			const saveData = await fetch(`/api/customer/report/${userId}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -50,20 +49,21 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 					content: notes,
 				}),
 			});
-			if (updateData.ok) {
-				setToastMessage('Report saved successfully');
-				setToastActive(true);
+			if (saveData.ok) {
+				// Optional: Handle success message or redirection here
 			} else {
 				console.error('Failed to save report');
 			}
 		} catch (err) {
 			console.log(err);
 		} finally {
+			setLoading(false);
 			navigate(-1);
 		}
 	};
 
 	const handleDelete = async () => {
+		setLoading(true);
 		try {
 			const DeletedData = await fetch(
 				`/api/customers/report/${customerInfo?.report?.id}`,
@@ -72,17 +72,20 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 				}
 			);
 			if (DeletedData.ok) {
-				setToastMessage('Report deleted successfully');
-				setToastActive(true);
+				// Optional: Handle success message or redirection here
 			} else {
 				console.error('Failed to delete report');
 			}
 		} catch (err) {
 			console.log(err);
+		} finally {
+			setLoading(false);
+			navigate(-1);
 		}
 	};
 
 	const handleUpdate = async () => {
+		setLoading(true);
 		try {
 			const updateData = await fetch(
 				`/api/customers/report/${customerInfo?.report?._id}`,
@@ -96,14 +99,14 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 				}
 			);
 			if (updateData.ok) {
-				setToastMessage('Report updated successfully');
-				setToastActive(true);
+				// Optional: Handle success message or redirection here
 			} else {
 				console.error('Failed to update report');
 			}
 		} catch (err) {
 			console.log(err);
 		} finally {
+			setLoading(false);
 			navigate(-1);
 		}
 	};
@@ -131,24 +134,9 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 		}
 	}
 
-	const toggleToastActive = useCallback(() => {
-		setToastActive((active) => !active);
-		setTimeout(() => {
-			navigate(-1);
-		}, 100); // Delay to ensure Toast is dismissed before navigation
-	}, [navigate]);
-
 	useEffect(() => {
 		fetchCustomers();
 	}, [userId]);
-
-	const toastMarkup = toastActive ? (
-		<Toast
-			content={toastMessage}
-			onDismiss={toggleToastActive}
-			duration={toastDuration}
-		/>
-	) : null;
 
 	return (
 		<Frame>
@@ -189,8 +177,8 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 							onChange={setReason}
 						/>
 						<TextField
-							label="Notes"
-							placeholder="Enter notes here"
+							label="Report"
+							placeholder="Write about your customer interaction here"
 							multiline={4}
 							value={notes}
 							onChange={setNotes}
@@ -198,8 +186,8 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 						<FormLayout.Group>
 							{editValue && (
 								<div style={{ flex: 1 }}>
-									<Button secondary onClick={handleDelete}>
-										Delete Report
+									<Button secondary onClick={handleDelete} disabled={loading}>
+										{loading ? 'Deleting...' : 'Delete Report'}
 									</Button>
 								</div>
 							)}
@@ -211,17 +199,22 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 									width: '100%',
 								}}
 							>
-								<Button primary onClick={handleCancel} destructive>
+								<Button
+									primary
+									onClick={handleCancel}
+									destructive
+									disabled={loading}
+								>
 									Cancel
 								</Button>
 								<span style={{ margin: '0 8px' }}></span>
 								{!editValue ? (
-									<Button primary onClick={handleSave}>
-										Save
+									<Button primary onClick={handleSave} disabled={loading}>
+										{loading ? 'Saving...' : 'Save'}
 									</Button>
 								) : (
-									<Button primary onClick={handleUpdate}>
-										Update
+									<Button primary onClick={handleUpdate} disabled={loading}>
+										{loading ? 'Updating...' : 'Update'}
 									</Button>
 								)}
 							</div>
@@ -229,7 +222,6 @@ export default function ReportForm({ customerEmail, customerAddress }) {
 					</FormLayout>
 				</Card>
 			</Page>
-			{toastMarkup}
 		</Frame>
 	);
 }
