@@ -80,6 +80,8 @@ These are the user stories that guided the development of our project:
 
 #### Wireframe
 
+This was the original wireframe for the project. As the project evolved, the UI and some features had to be adjusted. For example, a login form and logout button wasn't required as the app is accessed from within Shopify. However, the main features generally remained the same.
+
 [Figma](https://www.figma.com/board/IHQ2Q2X0X0ExJtFgtCE8j1/MerchantBeware-Flow?t=Wlj8PpanlCohK2FI-0)
 
 #### Project Planning
@@ -88,19 +90,45 @@ These are the user stories that guided the development of our project:
 
 ## Screenshots
 
-Home Page
+**Home Page**
+
+A page that explains how the app is used and links to the 3 main pages needed to use the app
 
 ![Home Page](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Home-Page.jpg?raw=true)
 
+**Database Search**
+
+This is the page that searches the central MongoDB database which will contain information on customers that other stores share information about, even if the customer hasn't shopped at your store.
+
 ![Database Search](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Database-Search.jpg?raw=true)
+
+**Customer Search**
+
+This page allows you to find your own customers and create or edit reports about them.
 
 ![Customer Search](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Your-Customers.jpg?raw=true)
 
+**Order Search**
+
+This page allows you to search your orders and create or edit reports about the customers who made them.
+
 ![Order Search](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Search-Orders.jpg?raw=true)
+
+**Create Report Page**
+
+This page allows users to create reports on customers. The customer's name, email and address are pre-filled in to minimise errors and potential for abuse.
 
 ![Create Bad Customer Report](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Create-Report.jpg?raw=true)
 
+**Edit/Delete Report Page**
+
+This page allows users to edit and update reports, as well as delete them.
+
 ![Edit/Delete Bad Customer Report](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Edit-Report.jpg?raw=true)
+
+**Automatic Bad Customer Tags**
+
+When a customer is marked a bad customer, the "bad customer" tag is added to the order whenever the customer tries to make an order on the store. This alerts the merchant to check for reports on the customer and determine if they want to do business with them.
 
 ![Bad Customer Tag on Orders](https://github.com/WAILENGL/merchantbewareapp/blob/main/Images/Bad-Customer-Tags-on-orders.jpg?raw=true)
 
