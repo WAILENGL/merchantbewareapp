@@ -1,23 +1,23 @@
-import shopify from '../shopify.js';
-import { ReportModel } from '../model/ReportModel.js';
-import { CustomerModel } from '../model/CustomersInfo.js';
+import shopify from "../shopify.js";
+import { ReportModel } from "../model/ReportModel.js";
+import { CustomerModel } from "../model/CustomersInfo.js";
 
 export const getSingleCustomer = async (_req, res) => {
-	try {
-		const customer = await shopify.api.rest.Customer.find({
-			session: res.locals.shopify.session,
-			id: parseInt(_req.params.id),
-		});
-		const reportFromDb = await ReportModel.findOne({
-			id: parseInt(_req.params.id),
-		});
-		res.status(200).send({ ...customer, report: reportFromDb });
-	} catch (err) {
-		res.status(err.code).send(err.message);
-	}
+  try {
+    const customer = await shopify.api.rest.Customer.find({
+      session: res.locals.shopify.session,
+      id: parseInt(_req.params.id),
+    });
+    const reportFromDb = await ReportModel.findOne({
+      id: parseInt(_req.params.id),
+    });
+    res.status(200).send({ ...customer, report: reportFromDb });
+  } catch (err) {
+    res.status(err.code).send(err.message);
+  }
 };
 
-export const badCustomersUpdate = async (_req, res) => {
+/* export const badCustomersUpdate = async (_req, res) => {
 	try {
 		// Getting orders
 		let orders;
@@ -130,4 +130,4 @@ export const badCustomersUpdate = async (_req, res) => {
 
 
 
-
+ */
