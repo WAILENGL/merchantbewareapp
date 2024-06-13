@@ -134,13 +134,13 @@ When a customer is marked a bad customer, the "bad customer" tag is added to the
 
 ## Next Steps
 
-- Optimize code
+- Optimize code and future-proof it
 - Add Settings for users to customize how they want their customers to be tagged
 - Add customized tags for different bad customer interactions (Excessive Refunds, Recent Multiple Chargebacks etc)
 - Add an Admin cms to manage reports and customers in case of GDPR data requests
 - Look into data protections needed to publish the app publicly
 
-## Key Learnings
+## Key Learnings & Challenges
 
 **How to Create a Shopify App from Scratch Using MERN**
 
@@ -151,6 +151,10 @@ A crucial aspect of building a Shopify app is learning to use the Shopify app li
 **The importance of planning**
 
 Because I switched to using the Shopify app template halfway, it caused me to deviate from my original plans and resulted in quite a bit of wasted work. This reinforced for me the importance of planning in ensuring that unexpected/unintended problems didn't come up down the road.
+
+**Issues with Limited Testing Conditions**
+
+As the app needs to read data which is protected, such as customer data, Shopify requires developers to seek approval for such api scopes if it's installed on multiple stores. Such approval takes up to 7 working days and as of presentation day, is still pending. This limited me to using the app on one store, so it was difficult to test code for data that would be shared by multiple users. Once the app can be installed on multiple stores, I expect to modify the code further.
 
 ## Experience Summary
 
