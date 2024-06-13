@@ -146,13 +146,11 @@ When a customer is marked a bad customer, the "bad customer" tag is added to the
 
 The process of learning to apply what I learnt about the MERN stack in class to the Shopify app template reinforced my understanding of development with MERN technologies and expanded my view of what is possible even at this point in my journey as a developer.
 
-**Using the Shopify App Libraries and APIs**
-
 A crucial aspect of building a Shopify app is learning to use the Shopify app libraries and APIs. These tools facilitate secure authentication, data retrieval, and manipulation of store data. Understanding how to work with Shopify's API endpoints allows for efficient handling of orders and customer data, which are crucial to the functioning of the app.
 
-**How to Use Context to Manage States**
+**The importance of planning**
 
-I learnt to use React's Context API for centralized state management, making it easier to share data across different components without prop drilling. This was useful for Merchant Beware as various components needed to access and update shared customer and order data.
+Because I switched to using the Shopify app template halfway, it caused me to deviate from my original plans and resulted in quite a bit of wasted work. This reinforced for me the importance of planning in ensuring that unexpected/unintended problems didn't come up down the road.
 
 ## Experience Summary
 
